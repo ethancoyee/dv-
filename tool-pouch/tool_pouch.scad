@@ -24,12 +24,12 @@ belt_t        = 3.2;       // 1/8" belt
 belt_extra_w  = 4;         // slot is belt_w + this
 belt_extra_t  = 4;         // slot gap is belt_t + this  (easy to thread)
 
-wall          = 3;         // wall between pockets
+wall          = 5;         // wall between pockets: 2 mm chamfer each side leaves a 1 mm flat on top
 wall_out      = 4;         // outside wall
 wall_back     = 4.5;       // wall against the leg
 floor_t       = 4;         // floor under the deepest pocket
 rim_round     = 2;         // chamfer on the outside edge of each deck
-mouth_chamfer = 1.5;       // lead-in chamfer on every pocket mouth
+mouth_chamfer = 2;         // 45-degree lead-in chamfer on every pocket mouth
 base_chamfer  = 3;         // chamfer on the bottom edge
 deck_back     = 100;       // height of the upper deck above the level/wrench floor
 front_drop    = 18;        // lower deck (strippers, Cobra) sits this much lower
@@ -47,6 +47,8 @@ driver_handle = 31;        // yellow collar diameter (from photo, ~1.2 in)
 handle_in     = collar_len + 1;   // deck top sits 1 mm above the green band, right at the rubber
 cb_extra      = 6;         // counterbore is this much deeper than handle_in (shaft bottoms first)
 bottom_extra  = 6;         // extra floor under everything so the driver bore fits
+drain_d       = 4;         // drain hole in every pocket floor (smaller than a 1/4" hex bit)
+drain_d_driver = 3;        // drain under the driver bore
 driver_ramp   = 48;        // how far the sloped deck runs from the driver housing toward the strippers
 
 $fn = 40;
@@ -170,8 +172,12 @@ module cavity(i) {
     w = c_w(i); t = c_t(i); rim = c_deck(i); z0 = c_z0(i); rr = c_rr(i);
     at_cell(i) {
         if (is_bore(i)) {
-            hull() { slice(z0, bore_w, bore_w, 0, bore_w / 2); slice(rim, bore_w, bore_w, 0, bore_w / 2); }
-            straight_cavity(c_cbd(i), c_cbd(i), rim - c_cbh(i), rim, c_cbd(i) / 2);
+            cbf = rim - c_cbh(i);                                  // counterbore floor
+            hull() { slice(z0, bore_w, bore_w, 0, bore_w / 2); slice(cbf, bore_w, bore_w, 0, bore_w / 2); }
+            // 45-degree funnel from the counterbore floor into the bore, so the socket self-centres
+            hull() { slice(cbf - (c_cbd(i) - bore_w) / 2, bore_w, bore_w, 0, bore_w / 2);
+                     slice(cbf + 0.01, c_cbd(i), c_cbd(i), 0, c_cbd(i) / 2); }
+            straight_cavity(c_cbd(i), c_cbd(i), cbf, rim, c_cbd(i) / 2);
         } else if (is_taper(i)) {
             prof = c_prof(i);
             hull() {
@@ -186,7 +192,7 @@ module cavity(i) {
     }
 }
 module drain(i) {
-    at_cell(i) translate([0, 0, z_bottom - 1]) cylinder(d = 6, h = c_z0(i) - z_bottom + 3);
+    at_cell(i) translate([0, 0, z_bottom - 1]) cylinder(d = is_bore(i) ? drain_d_driver : drain_d, h = c_z0(i) - z_bottom + 3);
 }
 
 // ---------------- sculpted outer shell --------------------------------

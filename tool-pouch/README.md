@@ -39,7 +39,7 @@ Every pocket mouth has a lead-in chamfer. The grooves between pockets are filled
 | Strippers | 48 x 18 mm at rim, 20 mm wide at floor | 95 mm | ~110 mm |
 | Cobra | 50 x 14 mm at rim, 22 mm wide at floor | 95 mm | ~85 mm |
 
-Each pocket has 4 mm of width clearance and 3 mm of thickness clearance over the measured tool, and a 6 mm drain hole in the floor. Walls between pockets are 3 mm at their thinnest point, checked numerically.
+Each pocket has 4 mm of width clearance and 3 mm of thickness clearance over the measured tool. Every mouth has a 2 mm 45-degree lead-in chamfer, and the driver's counterbore floor funnels at 45 degrees into the shaft bore so the flip socket self-centres. Drain holes are 4 mm (3 mm under the driver), smaller than a 1/4 in hex bit. Walls between pockets are 5 mm, which leaves a 1 mm flat between the two chamfers on top of each divider.
 
 ## Belt loop
 
@@ -50,8 +50,8 @@ Sized for a 1-1/2 in wide, 1/8 in thick belt. The slot is 42 mm tall with a 7.2 
 | | |
 |---|---|
 | Height including belt tab | 195 mm |
-| Chord across the outside | ~173 mm |
-| Wrap around the leg | ~69 degrees |
+| Chord across the outside | ~178 mm |
+| Wrap around the leg | ~72 degrees |
 | Thickest point off the leg | ~64 mm at the strippers, ~50 mm at the Cobra |
 | Leg circumference it is curved for | 22 in (parameter `thigh_circ_in`) |
 
