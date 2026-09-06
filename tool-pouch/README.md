@@ -24,7 +24,7 @@ Five columns along the leg, from the back of the thigh toward the front:
 
 Level, wrenches, and driver open on the upper deck. Strippers and Cobra open on a deck 18 mm lower. A sloped deck runs from the driver housing outward down to the strippers so the housing doesn't stand up abruptly.
 
-The driver's shaft drops into a bore and the yellow collar and green band sink into a 34 mm counterbore, so the deck comes right up to the rubber handle. The shaft bottoms out before the handle can.
+The driver is held at three points: the bit tip in an 8.5 mm pilot hole, the 3/8 flip socket in a snug 16.5 mm bore, and the yellow collar in a 34 mm counterbore. The socket's shoulder rests on the 45-degree step above the pilot, so the bit tip carries no weight, and the deck comes right up to the rubber handle with the collar and green band inside.
 
 Every pocket mouth has a lead-in chamfer. The grooves between pockets are filled so the outside is one smooth surface with nothing to catch on. The two pliers pockets still taper to match the tools. The back of the pouch is a concave arc that matches the leg.
 
@@ -35,7 +35,7 @@ Every pocket mouth has a lead-in chamfer. The grooves between pockets are filled
 | Level | 36 x 25 mm | 100 mm | ~65 mm |
 | Big wrench, edge-on | 19 x 38 mm | 100 mm | ~110 mm |
 | Small wrench, edge-on | 16 x 30 mm | 100 mm | ~65 mm |
-| Driver | 20 mm bore, 34 mm counterbore 32 mm deep | 124 mm | rubber handle only |
+| Driver | 8.5 mm pilot, 16.5 mm bore, 34 mm counterbore 33 mm deep | 127 mm | rubber handle only |
 | Strippers | 48 x 18 mm at rim, 20 mm wide at floor | 95 mm | ~110 mm |
 | Cobra | 50 x 14 mm at rim, 22 mm wide at floor | 95 mm | ~85 mm |
 
@@ -49,7 +49,7 @@ Sized for a 1-1/2 in wide, 1/8 in thick belt. The slot is 42 mm tall with a 7.2 
 
 | | |
 |---|---|
-| Height including belt tab | 195 mm |
+| Height including belt tab | 197 mm |
 | Chord across the outside | ~178 mm |
 | Wrap around the leg | ~72 degrees |
 | Thickest point off the leg | ~64 mm at the strippers, ~50 mm at the Cobra |
@@ -70,7 +70,7 @@ Open `tool_pouch.scad` and edit the parameter block at the top:
 - `thigh_circ_in` changes the curve of the back.
 - `belt_w`, `belt_t` resize the belt slot.
 - `front_drop` sets how much lower the front deck sits.
-- `driver_shaft` is collar face to bit tip, `collar_len` is the collar plus green band up to the rubber. The deck top lands 1 mm above the green band.
+- `driver_shaft` is collar face to bit tip, `collar_len` is the collar plus green band up to the rubber, `socket_d` and `bit_len` size the snug bore and pilot. The deck top lands about 1 mm above the green band.
 - `blend_r` is the smoothing radius. Lower it (7 or so) to get the scalloped look back.
 - The `cells` table holds each pocket: which column it is in, how far off the leg it sits, width, thickness, deck, floor, and taper. Column spacing is computed from the pockets, so changing a size moves everything else to keep 3 mm walls.
 - `driver_ramp` sets how far the sloped deck runs from the driver housing toward the strippers.

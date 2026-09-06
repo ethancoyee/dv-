@@ -44,9 +44,12 @@ pouch_color   = [0.30, 0.34, 0.40];   // preview colour of the pouch (alpha < 1 
 driver_shaft  = 98;        // yellow collar face to bit tip (from photo)
 collar_len    = 25;        // yellow collar + green band, up to where the rubber handle starts (from photo)
 driver_handle = 31;        // yellow collar diameter (from photo, ~1.2 in)
-handle_in     = collar_len + 1;   // deck top sits 1 mm above the green band, right at the rubber
+handle_in     = collar_len + 2;   // deck top sits about 1 mm above the green band, right at the rubber
+socket_d      = 14.5;      // 3/8 flip socket diameter (widest part of the shaft)
+bit_len       = 26;        // bit tip to the face of the flip socket
+bit_d         = 7.5;       // 1/4" hex bit across the corners
 cb_extra      = 6;         // counterbore is this much deeper than handle_in (shaft bottoms first)
-bottom_extra  = 6;         // extra floor under everything so the driver bore fits
+bottom_extra  = 8;         // extra floor under everything so the driver bore and pilot fit
 drain_d       = 4;         // drain hole in every pocket floor (smaller than a 1/4" hex bit)
 drain_d_driver = 3;        // drain under the driver bore
 driver_ramp   = 48;        // how far the sloped deck runs from the driver housing toward the strippers
@@ -57,7 +60,7 @@ $fn = 40;
 // level: 165 long, 32 wide, ~22 thick        -> pocket 36 x 25
 // big wrench: 210 long, 11/16 head ~34 dia, 16 thick -> edge-on 19 wide x 38 deep
 // small wrench: 165 long, 7/16 head ~26 dia, 13 thick -> edge-on 16 wide x 30 deep
-// driver: shaft + flip socket + bit ~98 long, max 14 dia; collar 31 dia -> bore 20, counterbore 34
+// driver: collar face to bit tip 98; 3/8 socket 14.5 dia; bit 26 long -> pilot 8.5, bore 16.5, counterbore 34
 // strippers: 205 long, 15 thick at pivot; nose 12 wide, handles ~46 wide at 95 up
 // cobra: 180 long, 11 thick at joint; nose 14, joint 46 wide at ~55 up
 
@@ -101,7 +104,9 @@ function c_cbh(i)  = cells[i][10];
 function c_r(i)    = R + wall_back + cells[i][2] + c_t(i) / 2;      // radial centre
 function is_bore(i)  = c_cbd(i) > 0;
 function is_taper(i) = c_prof(i) != 0;
-bore_w = 20;                                                        // driver shaft bore
+bore_w  = socket_d + 2;                                             // snug bore around the flip socket
+pilot_d = bit_d + 1;                                                // pilot hole for the bit tip
+pilot_h = bit_len - 4;                                              // pilot depth; the socket rests on the step above it
 
 // Column angles.  Pocket sides are parallel (not radial), so two neighbours are
 // closest at the innermost radius they share.  Space each pair so the wall there
@@ -173,7 +178,13 @@ module cavity(i) {
     at_cell(i) {
         if (is_bore(i)) {
             cbf = rim - c_cbh(i);                                  // counterbore floor
-            hull() { slice(z0, bore_w, bore_w, 0, bore_w / 2); slice(cbf, bore_w, bore_w, 0, bore_w / 2); }
+            // pilot for the bit tip (2 mm below the tip's rest height, so the tip floats)
+            hull() { slice(z0 - 2, pilot_d, pilot_d, 0, pilot_d / 2); slice(z0 + pilot_h, pilot_d, pilot_d, 0, pilot_d / 2); }
+            // 45-degree step from the pilot up to the socket bore: the socket shoulder rests here
+            hull() { slice(z0 + pilot_h, pilot_d, pilot_d, 0, pilot_d / 2);
+                     slice(z0 + pilot_h + (bore_w - pilot_d) / 2, bore_w, bore_w, 0, bore_w / 2); }
+            // snug bore around the flip socket and shaft
+            hull() { slice(z0 + pilot_h, bore_w, bore_w, 0, bore_w / 2); slice(cbf, bore_w, bore_w, 0, bore_w / 2); }
             // 45-degree funnel from the counterbore floor into the bore, so the socket self-centres
             hull() { slice(cbf - (c_cbd(i) - bore_w) / 2, bore_w, bore_w, 0, bore_w / 2);
                      slice(cbf + 0.01, c_cbd(i), c_cbd(i), 0, c_cbd(i) / 2); }
@@ -194,6 +205,8 @@ module cavity(i) {
 module drain(i) {
     at_cell(i) translate([0, 0, z_bottom - 1]) cylinder(d = is_bore(i) ? drain_d_driver : drain_d, h = c_z0(i) - z_bottom + 3);
 }
+// the driver's pilot floor sits 2 mm below its rest height; keep 3 mm of floor under it
+assert(driver_floor - 2 >= z_bottom + 3, "driver pilot goes through the bottom: raise bottom_extra");
 
 // ---------------- sculpted outer shell --------------------------------
 // The shell is a stack of thin layers.  At each height the outline is the
