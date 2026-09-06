@@ -36,7 +36,8 @@ clear_w       = 4;         // total width clearance added to each tool
 clear_t       = 3;         // total thickness clearance added to each tool
 blend_r       = 40;        // closing radius: fills every groove smaller than ~2x this
 band_h        = 1;         // layer height of the sculpted shell (1 = final, 4 = fast preview)
-show_tools    = false;     // draw translucent tool stand-ins (preview only)
+show_tools    = false;     // draw the tools in place (preview only)
+pouch_color   = [0.30, 0.34, 0.40];   // preview colour of the pouch (alpha < 1 shows what is inside)
 
 // driver (11-in-1) fit
 driver_shaft  = 98;        // shaft + flip socket + bit, collar face to bit tip (from photo)
@@ -230,19 +231,67 @@ module belt_loop() {
     }
 }
 
-// ---------------- tool stand-ins for preview ---------------------------
-module tool_ghosts() {
-    color([0.85, 0.35, 0.1, 0.55]) {
-        place(a_back(0), r_back(0)) linear_extrude(165) square([22, 32], center = true);          // level
-        place(a_back(1), r_back(1)) linear_extrude(210) square([16, 34], center = true);          // big wrench
-        place(a_back(2), r_back(2)) linear_extrude(165) square([13, 26], center = true);          // small wrench
-        place(a_back(3), r_back(3)) translate([0, 0, driver_floor]) {                            // driver
-            cylinder(d = 14, h = driver_shaft); translate([0, 0, driver_shaft]) cylinder(d = driver_handle, h = 100); }
-        place(a_front(0), r_front(0)) hull() for (p = [[0, 12], [75, 30], [205, 60]])
-            translate([0, 0, z_floor_front(0) + p[0]]) linear_extrude(0.1) square([15, p[1]], center = true); // strippers
-        place(a_front(1), r_front(1)) hull() for (p = [[0, 14], [55, 46], [180, 55]])
-            translate([0, 0, z_floor_front(1) + p[0]]) linear_extrude(0.1) square([11, p[1]], center = true); // cobra
+// ---------------- tool models for preview -------------------------------
+// Recognisable stand-ins at real size (preview only, never exported).
+// Local frame of each pocket: x = radial (thickness), y = tangential (width), z = up.
+C_chrome = [0.80, 0.81, 0.84]; C_red = [0.82, 0.16, 0.10]; C_black = [0.13, 0.13, 0.14];
+C_orange = [0.95, 0.52, 0.08]; C_brass = [0.78, 0.64, 0.22]; C_tape = [0.08, 0.42, 0.30];
+C_yellow = [0.92, 0.82, 0.25]; C_green = [0.10, 0.36, 0.30]; C_vial = [0.75, 0.92, 0.35];
+
+module box(x, y, z0, z1) { translate([0, 0, z0]) linear_extrude(z1 - z0) square([x, y], center = true); }
+module taper(x0, y0, z0, x1, y1, z1) {
+    hull() { box(x0, y0, z0, z0 + 0.1); box(x1, y1, z1 - 0.1, z1); }
+}
+module xcyl(d, l, z, y = 0) { translate([0, y, z]) rotate([0, 90, 0]) cylinder(d = d, h = l, center = true); }
+
+module m_level() {                          // orange billet torpedo level, 165 x 32 x 22
+    color(C_orange) difference() {
+        box(22, 32, 0, 165);
+        for (z = [28, 68, 108, 148]) xcyl(16, 30, z);
+        xcyl(6, 30, 8);                     // hanging hole
     }
+    color(C_vial) for (z = [28, 68, 108, 148]) translate([0, 0, z]) rotate([90, 0, 0]) cylinder(d = 7, h = 22, center = true);
+    color(C_brass) { translate([0, 14, 155]) rotate([-90, 0, 0]) cylinder(d = 8, h = 7);   // pitch knob
+                     translate([0, 0, 163]) cylinder(d = 5, h = 6); }                       // screw
+}
+module m_wrench(L, d0, t0, d1, t1) {        // ratcheting box wrench, big end (d0) down
+    color(C_chrome) {
+        box(6, 12, d0 / 2, L - d1 / 2);
+        difference() { xcyl(d0, t0, d0 / 2); xcyl(d0 * 0.55, t0 + 2, d0 / 2); }
+        difference() { xcyl(d1, t1, L - d1 / 2); xcyl(d1 * 0.55, t1 + 2, L - d1 / 2); }
+    }
+    color(C_tape) box(8, 14, L * 0.5, L * 0.5 + 12);
+}
+module m_driver() {                          // Klein 11-in-1 with 3/8 flip socket
+    color(C_black) { cylinder(d = 6.35, h = 26, $fn = 6);                      // bit
+                     translate([0, 0, 24]) cylinder(d = 14, h = 40);            // flip socket
+                     translate([0, 0, 64]) cylinder(d = 8, h = 34); }           // shaft
+    color(C_yellow) translate([0, 0, driver_shaft]) cylinder(d = driver_handle, h = 10);   // collar
+    color(C_green)  translate([0, 0, driver_shaft + 10]) cylinder(d = driver_handle - 2, h = 18);
+    color(C_black)  translate([0, 0, driver_shaft + 28]) cylinder(d = driver_handle, h = 70);
+}
+module m_strippers() {                       // Milwaukee 6-in-1, nose down, 205 long
+    color(C_black) { taper(6, 8, 0, 9, 22, 60); box(10, 32, 60, 95); }
+    color(C_chrome) { xcyl(22, 11, 78); translate([0, 0, 90]) box(8, 6, 88, 96); }
+    for (sgn = [-1, 1]) color(C_red)
+        hull() { translate([0, sgn * 11, 95]) box(14, 12, 0, 0.1); translate([0, sgn * 24, 205]) box(14, 13, -0.1, 0); }
+    color(C_tape) hull() { translate([0, 14, 150]) box(15, 14, 0, 0.1); translate([0, 15.5, 164]) box(15, 14, 0, 0.1); }
+}
+module m_cobra() {                            // Knipex Cobra 180, nose down
+    color(C_chrome) { taper(8, 12, 0, 11, 40, 42); box(11, 46, 42, 72);
+                      translate([6, 8, 60]) rotate([0, 90, 0]) cylinder(d = 7, h = 3); }   // push button
+    for (sgn = [-1, 1]) color(C_red)
+        hull() { translate([0, sgn * 10, 72]) box(10, 11, 0, 0.1); translate([0, sgn * 27, 180]) box(10, 10, -0.1, 0); }
+    color(C_tape) hull() { translate([0, -13, 105]) box(11, 12, 0, 0.1); translate([0, -14.5, 117]) box(11, 12, 0, 0.1); }
+}
+
+module tool_models() {
+    place(a_back(0), r_back(0)) m_level();
+    place(a_back(1), r_back(1)) m_wrench(210, 34, 16, 30, 14);
+    place(a_back(2), r_back(2)) m_wrench(165, 26, 13, 22, 11);
+    place(a_back(3), r_back(3)) translate([0, 0, driver_floor]) m_driver();
+    place(a_front(0), r_front(0)) translate([0, 0, z_floor_front(0)]) m_strippers();
+    place(a_front(1), r_front(1)) translate([0, 0, z_floor_front(1)]) m_cobra();
 }
 
 // ---------------- assembly -------------------------------------------
@@ -263,7 +312,7 @@ module pouch() {
 
 // centre the pouch on +X, front of the thigh toward +Y for the right leg
 module oriented() {
-    rotate([0, 0, -belt_center_a]) { pouch(); if (show_tools) tool_ghosts(); }
+    rotate([0, 0, -belt_center_a]) { color(pouch_color) pouch(); if (show_tools) tool_models(); }
 }
 
 if (side == "left") mirror([0, 1, 0]) oriented(); else oriented();
