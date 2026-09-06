@@ -21,8 +21,9 @@ side          = "right";   // "right" or "left" thigh  (left = mirror image)
 thigh_circ_in = 22;        // circumference of the leg where the pouch sits (inches)
 belt_w        = 38.1;      // 1-1/2" belt
 belt_t        = 3.2;       // 1/8" belt
-belt_extra_w  = 4;         // slot is belt_w + this
+belt_extra_w  = 6;         // slot is belt_w + this (1-1/2" belt gets a 1-3/4" slot)
 belt_extra_t  = 4;         // slot gap is belt_t + this  (easy to thread)
+belt_chamfer  = 2;         // 45-degree chamfer on the edges the belt slides over
 
 wall          = 5;         // wall between pockets: 2 mm chamfer each side leaves a 1 mm flat on top
 wall_out      = 4;         // outside wall
@@ -43,9 +44,10 @@ pouch_color   = [0.30, 0.34, 0.40];   // preview colour of the pouch (alpha < 1 
 // driver (11-in-1) fit
 driver_shaft  = 98;        // yellow collar face to bit tip (from photo)
 collar_len    = 25;        // yellow collar + green band, up to where the rubber handle starts (from photo)
-driver_handle = 31;        // yellow collar diameter (from photo, ~1.2 in)
+driver_handle = 27;        // yellow collar diameter, 1-1/16" (measured)
+rubber_d      = 32;        // rubber handle diameter (preview only)
 handle_in     = collar_len + 2;   // deck top sits about 1 mm above the green band, right at the rubber
-socket_d      = 14.5;      // 3/8 flip socket diameter (widest part of the shaft)
+socket_d      = 15.9;      // 3/8 flip socket diameter, 5/8" (measured)
 bit_len       = 26;        // bit tip to the face of the flip socket
 bit_d         = 7.5;       // 1/4" hex bit across the corners
 cb_extra      = 6;         // counterbore is this much deeper than handle_in (shaft bottoms first)
@@ -60,7 +62,7 @@ $fn = 40;
 // level: 165 long, 32 wide, ~22 thick        -> pocket 36 x 25
 // big wrench: 210 long, 11/16 head ~34 dia, 16 thick -> edge-on 19 wide x 38 deep
 // small wrench: 165 long, 7/16 head ~26 dia, 13 thick -> edge-on 16 wide x 30 deep
-// driver: collar face to bit tip 98; 3/8 socket 14.5 dia; bit 26 long -> pilot 8.5, bore 16.5, counterbore 34
+// driver: collar face to bit tip 98; socket 15.9 dia; collar 27 dia; bit 26 long -> pilot 8.5, bore 18, counterbore 30
 // strippers: 205 long, 15 thick at pivot; nose 12 wide, handles ~46 wide at 95 up
 // cobra: 180 long, 11 thick at joint; nose 14, joint 46 wide at ~55 up
 
@@ -269,14 +271,32 @@ module belt_loop() {
     outer = concat([[R, z_lo], [R + tt, z_lo]], top_out, top_in, [[R - g - st, z_strap0]], ramp);
     hole  = [[R - g, z_s0], [R, z_s0], [R, z_s1], [R - g, z_s1 + g]];
     n = len(outer);
+    c = belt_chamfer; hw = tab_w / 2;
+    x_in  = sqrt((R - g) * (R - g) - hw * hw);            // strap belt-side face at the ends
+    x_out = sqrt((R - g - st) * (R - g - st) - hw * hw);  // strap outer face at the ends
     rotate([0, 0, belt_center_a])
-    intersection() {
-        rotate([0, 0, -50]) rotate_extrude(angle = 100)
-            polygon(concat(outer, hole), [[for (i = [0 : n - 1]) i], [n, n + 1, n + 2, n + 3]]);
-        // round the corners of the tab (seen from the side)
-        rotate([90, 0, 90]) linear_extrude(height = 600, center = true)
-            translate([0, (z_lo + z_tab1) / 2])
-                offset(r = 14) offset(delta = -14) square([tab_w, z_tab1 - z_lo], center = true);
+    difference() {
+        intersection() {
+            rotate([0, 0, -50]) rotate_extrude(angle = 100)
+                polygon(concat(outer, hole), [[for (i = [0 : n - 1]) i], [n, n + 1, n + 2, n + 3]]);
+            // round the corners of the tab (seen from the side)
+            rotate([90, 0, 90]) linear_extrude(height = 600, center = true)
+                translate([0, (z_lo + z_tab1) / 2])
+                    offset(r = 14) offset(delta = -14) square([tab_w, z_tab1 - z_lo], center = true);
+        }
+        // chamfer the edges the belt slides over on its way in: the four vertical
+        // edges of the strap ends, and the slot floor at each end
+        for (sgn = [-1, 1]) {
+            // strap, belt-side vertical edge
+            translate([0, 0, z_lo - 1]) linear_extrude(z_tab1 - z_lo + 2)
+                polygon([[x_in + 0.01, sgn * (hw + 0.01)], [x_in - c, sgn * (hw + 0.01)], [x_in + 0.01, sgn * (hw - c)]]);
+            // strap, outer vertical edge
+            translate([0, 0, z_lo - 1]) linear_extrude(z_tab1 - z_lo + 2)
+                polygon([[x_out - 0.01, sgn * (hw + 0.01)], [x_out + c, sgn * (hw + 0.01)], [x_out - 0.01, sgn * (hw - c)]]);
+            // slot floor edge (top of the bottom bridge)
+            translate([R - g - st - 1, 0, 0]) rotate([90, 0, 90]) linear_extrude(g + st + tt + 2)
+                polygon([[sgn * (hw + 0.01), z_s0 + 0.01], [sgn * (hw + 0.01), z_s0 - c], [sgn * (hw - c), z_s0 + 0.01]]);
+        }
     }
 }
 
@@ -313,11 +333,11 @@ module m_wrench(L, d0, t0, d1, t1) {        // ratcheting box wrench, big end (d
 }
 module m_driver() {                          // Klein 11-in-1 with 3/8 flip socket
     color(C_black) { cylinder(d = 6.35, h = 26, $fn = 6);                      // bit
-                     translate([0, 0, 24]) cylinder(d = 14, h = 40);            // flip socket
+                     translate([0, 0, 24]) cylinder(d = socket_d, h = 40);      // flip socket
                      translate([0, 0, 64]) cylinder(d = 8, h = 34); }           // shaft
     color(C_yellow) translate([0, 0, driver_shaft]) cylinder(d = driver_handle, h = 11);                 // collar
     color(C_green)  translate([0, 0, driver_shaft + 11]) cylinder(d = driver_handle - 5, h = collar_len - 11); // green band
-    color(C_black)  translate([0, 0, driver_shaft + collar_len]) cylinder(d = driver_handle + 1, h = 90);  // rubber handle
+    color(C_black)  translate([0, 0, driver_shaft + collar_len]) cylinder(d = rubber_d, h = 90);  // rubber handle
 }
 module m_strippers() {                       // Milwaukee 6-in-1, nose down, 205 long
     color(C_black) { taper(6, 8, 0, 9, 22, 60); box(10, 32, 60, 95); }
