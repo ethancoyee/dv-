@@ -50,10 +50,10 @@ Sized for a 1-1/2 in wide, 1/8 in thick belt with room to spare: the slot is 44 
 | | |
 |---|---|
 | Height including belt tab | 199 mm |
-| Chord across the outside | ~178 mm |
-| Wrap around the leg | ~72 degrees |
+| Chord across the outside | ~176 mm |
+| Wrap around the leg | ~68 degrees |
 | Thickest point off the leg | ~60 mm at the strippers, ~50 mm at the Cobra |
-| Leg circumference it is curved for | 22 in (parameter `thigh_circ_in`) |
+| Leg circumference it is curved for | 24 in (parameter `thigh_circ_in`) |
 
 ## Printing
 

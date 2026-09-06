@@ -18,7 +18,7 @@
 
 // ---------------- user parameters ------------------------------------
 side          = "right";   // "right" or "left" thigh  (left = mirror image)
-thigh_circ_in = 22;        // circumference of the leg where the pouch sits (inches)
+thigh_circ_in = 24;        // circumference of the leg where the pouch sits (inches)
 belt_w        = 38.1;      // 1-1/2" belt
 belt_t        = 3.2;       // 1/8" belt
 belt_extra_w  = 6;         // slot is belt_w + this (1-1/2" belt gets a 1-3/4" slot)
