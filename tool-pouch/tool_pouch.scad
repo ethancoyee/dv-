@@ -117,6 +117,8 @@ z_s0    = top_back + 4;                    // bottom of belt slot
 z_s1    = z_s0 + slot_h;                   // top of belt slot
 z_tab1  = z_s1 + slot_gap + strap_t + 10;  // top of the tab
 tab_w   = 84;                              // belt loop width (chord, mm)
+ramp_h  = 36;                              // height of the rounded ramp under the belt loop
+ramp_steps = 16;
 
 echo(str("Leg radius R = ", R, " mm; pouch spans ", A_total, " deg; chord ", 2*(R+45)*sin(A_total/2), " mm"));
 echo(str("Overall height ", z_tab1 - z_bottom, " mm; driver bore floor at z = ", driver_floor,
@@ -214,16 +216,23 @@ module shell() {
 
 // ---------------- belt loop ------------------------------------------
 module belt_loop() {
-    g = slot_gap; st = strap_t; tt = tab_t;
-    z_lo = top_back - 14;                       // where the tab grows out of the body
-    z_strap0 = z_s0 - 6;
-    outer = [[R, z_lo], [R + tt, z_lo], [R + tt, z_tab1], [R - g - st, z_tab1],
-             [R - g - st, z_strap0], [R, z_strap0 - (g + st)]];
+    g = slot_gap; st = strap_t; tt = tab_t; rr = 3;
+    z_strap0 = z_s0 - 6;                                  // bottom of the flat strap face
+    z_ramp1  = z_strap0 - ramp_h;                         // where the ramp meets the pouch back
+    z_lo     = min(top_back - 14, z_ramp1 - 6);           // where the tab grows out of the body
+    // S-shaped ramp: vertical at both ends, so there is no edge against the leg
+    ramp = [ for (i = [0 : ramp_steps]) let (t = i / ramp_steps)
+             [R - (g + st) * (1 + cos(180 * t)) / 2, z_strap0 - ramp_h * t] ];
+    // rounded top corners (quarter circles)
+    top_out = [ for (i = [0 : 6]) let (a = 90 * i / 6) [R + tt - rr + rr * cos(a), z_tab1 - rr + rr * sin(a)] ];
+    top_in  = [ for (i = [0 : 6]) let (a = 90 + 90 * i / 6) [R - g - st + rr + rr * cos(a), z_tab1 - rr + rr * sin(a)] ];
+    outer = concat([[R, z_lo], [R + tt, z_lo]], top_out, top_in, [[R - g - st, z_strap0]], ramp);
     hole  = [[R - g, z_s0], [R, z_s0], [R, z_s1], [R - g, z_s1 + g]];
+    n = len(outer);
     rotate([0, 0, belt_center_a])
     intersection() {
         rotate([0, 0, -50]) rotate_extrude(angle = 100)
-            polygon(concat(outer, hole), [[0, 1, 2, 3, 4, 5], [6, 7, 8, 9]]);
+            polygon(concat(outer, hole), [[for (i = [0 : n - 1]) i], [n, n + 1, n + 2, n + 3]]);
         // round the corners of the tab (seen from the side)
         rotate([90, 0, 90]) linear_extrude(height = 600, center = true)
             translate([0, (z_lo + z_tab1) / 2])

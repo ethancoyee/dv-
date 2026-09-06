@@ -44,7 +44,7 @@ Each pocket has 4 mm of width clearance and 3 mm of thickness clearance over the
 
 ## Belt loop
 
-Sized for a 1-1/2 in wide, 1/8 in thick belt. The slot is 42 mm tall with a 7.2 mm gap so the belt threads easily. The loop is 84 mm wide and sits centred on the pouch. Both bridges of the loop are chamfered at 45 degrees so it prints without support.
+Sized for a 1-1/2 in wide, 1/8 in thick belt. The slot is 42 mm tall with a 7.2 mm gap so the belt threads easily. The loop is 84 mm wide and sits centred on the pouch. The top bridge is chamfered at 45 degrees so it prints without support. Below the loop, the strap face blends into the back of the pouch through a 36 mm S-shaped ramp (`ramp_h`), so there is no edge against the leg. The top edge of the strap is rounded.
 
 ## Overall size
 
