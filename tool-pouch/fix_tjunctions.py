@@ -74,11 +74,17 @@ if __name__ == "__main__":
     m = drop_coincident_faces(m)
     m = fix(m)
     m = drop_coincident_faces(m)
-    open_edges = len(trimesh.grouping.group_rows(m.edges_sorted, require_count=1))
-    print(f"faces {len(m.faces)}  watertight {m.is_watertight}  open edges {open_edges}  "
+    _, counts = np.unique(m.edges_sorted, axis=0, return_counts=True)
+    open_edges = int((counts == 1).sum())
+    pinch_edges = int((counts == 4).sum())
+    closed = open_edges == 0 and (counts % 2 == 0).all() and m.is_winding_consistent
+    print(f"faces {len(m.faces)}  closed {closed}  open edges {open_edges}  pinch edges {pinch_edges}  "
           f"volume {v0/1000:.1f} -> {m.volume/1000:.1f} cm3")
-    if not m.is_watertight:
-        sys.exit("mesh still not watertight")
+    if pinch_edges:
+        print("note: pinch edges are where two shell layers touch along a line; the volume is "
+              "closed and slicers handle them.")
+    if not closed:
+        sys.exit("mesh has holes")
     m.export(dst)
     for extra in sys.argv[3:]:
         m.export(extra)

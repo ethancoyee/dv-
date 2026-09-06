@@ -15,32 +15,31 @@ Parametric OpenSCAD model of a belt-hung pouch that wraps the outside of the thi
 
 ## Layout (right thigh, as worn)
 
-Back row, against the leg, from the back of the thigh toward the front:
+Five columns along the leg, from the back of the thigh toward the front:
 
-1. Torpedo level. Pocket is symmetric, so put the screw end whichever way you asked for.
-2. 9/16 x 11/16 ratcheting wrench, big end down.
-3. 3/8 x 7/16 ratcheting wrench, big end down.
-4. 11-in-1 driver, in its own round housing at the front. The shaft drops into a bore and the yellow collar and green band sink into a 34 mm counterbore, so the deck comes right up to the rubber handle. The shaft bottoms out before the handle can.
+1. Torpedo level against the leg, with the Knipex Cobra in front of it. Pocket is symmetric, so put the screw end whichever way you asked for.
+2. 9/16 x 11/16 ratcheting wrench, edge-on (flat face across the leg), big end down.
+3. 3/8 x 7/16 ratcheting wrench, edge-on, big end down.
+4. 11-in-1 driver against the leg in a round housing, with the Milwaukee 6-in-1 strippers in front of it.
 
-Front row, on the outside, rims 18 mm lower than the back row, starting just behind the driver housing and running toward the back:
+Level, wrenches, and driver open on the upper deck. Strippers and Cobra open on a deck 18 mm lower. A sloped deck runs from the driver housing outward down to the strippers so the housing doesn't stand up abruptly.
 
-5. Milwaukee 6-in-1 strippers, nose down.
-6. Knipex Cobra, nose down.
+The driver's shaft drops into a bore and the yellow collar and green band sink into a 34 mm counterbore, so the deck comes right up to the rubber handle. The shaft bottoms out before the handle can.
 
-Each row is one flat deck with the pocket mouths flush in it, and every mouth has a lead-in chamfer. The grooves between pockets are filled so the outside is one smooth surface with nothing to catch on. The front two pockets still taper to match the pliers, so the outside narrows toward the bottom. The back of the pouch is a concave arc that matches the leg.
+Every pocket mouth has a lead-in chamfer. The grooves between pockets are filled so the outside is one smooth surface with nothing to catch on. The two pliers pockets still taper to match the tools. The back of the pouch is a concave arc that matches the leg.
 
 ## Pocket sizes
 
 | Pocket | Opening (W x T) | Depth | Tool exposed |
 |--------|-----------------|-------|--------------|
 | Level | 36 x 25 mm | 100 mm | ~65 mm |
-| Big wrench | 38 x 19 mm | 100 mm | ~110 mm |
-| Small wrench | 30 x 16 mm | 100 mm | ~65 mm |
+| Big wrench, edge-on | 19 x 38 mm | 100 mm | ~110 mm |
+| Small wrench, edge-on | 16 x 30 mm | 100 mm | ~65 mm |
 | Driver | 20 mm bore, 34 mm counterbore 32 mm deep | 124 mm | rubber handle only |
 | Strippers | 48 x 18 mm at rim, 20 mm wide at floor | 95 mm | ~110 mm |
 | Cobra | 50 x 14 mm at rim, 22 mm wide at floor | 95 mm | ~85 mm |
 
-Each pocket has 4 mm of width clearance and 3 mm of thickness clearance over the measured tool, and a 6 mm drain hole in the floor.
+Each pocket has 4 mm of width clearance and 3 mm of thickness clearance over the measured tool, and a 6 mm drain hole in the floor. Walls between pockets are 3 mm at their thinnest point, checked numerically.
 
 ## Belt loop
 
@@ -51,8 +50,9 @@ Sized for a 1-1/2 in wide, 1/8 in thick belt. The slot is 42 mm tall with a 7.2 
 | | |
 |---|---|
 | Height including belt tab | 195 mm |
-| Chord across the outside | ~194 mm |
-| Wrap around the leg | ~93 degrees |
+| Chord across the outside | ~173 mm |
+| Wrap around the leg | ~69 degrees |
+| Thickest point off the leg | ~64 mm at the strippers, ~50 mm at the Cobra |
 | Leg circumference it is curved for | 22 in (parameter `thigh_circ_in`) |
 
 ## Printing
@@ -72,7 +72,8 @@ Open `tool_pouch.scad` and edit the parameter block at the top:
 - `front_drop` sets how much lower the front deck sits.
 - `driver_shaft` is collar face to bit tip, `collar_len` is the collar plus green band up to the rubber. The deck top lands 1 mm above the green band.
 - `blend_r` is the smoothing radius. Lower it (7 or so) to get the scalloped look back.
-- The `back` and `front` tables hold each pocket's width, thickness, depth, and taper.
+- The `cells` table holds each pocket: which column it is in, how far off the leg it sits, width, thickness, deck, floor, and taper. Column spacing is computed from the pockets, so changing a size moves everything else to keep 3 mm walls.
+- `driver_ramp` sets how far the sloped deck runs from the driver housing toward the strippers.
 - `band_h = 4` gives a fast preview. Set it back to 1 before exporting.
 - `show_tools = true` draws translucent stand-ins for the tools in preview mode.
 
