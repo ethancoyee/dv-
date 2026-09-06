@@ -20,9 +20,9 @@ Back row, against the leg, from the back of the thigh toward the front:
 1. Torpedo level. Pocket is symmetric, so put the screw end whichever way you asked for.
 2. 9/16 x 11/16 ratcheting wrench, big end down.
 3. 3/8 x 7/16 ratcheting wrench, big end down.
-4. 11-in-1 driver. The shaft drops into a round bore and the handle nests 12 mm down inside a counterbore, so you grab it like a pistol grip and it can't lean into the wrench next to it.
+4. 11-in-1 driver, in its own round housing at the front. The shaft drops into a bore and the yellow collar and green band sink into a 34 mm counterbore, so the deck comes right up to the rubber handle. The shaft bottoms out before the handle can.
 
-Front row, on the outside, rims 18 mm lower than the back row, from the front of the thigh toward the back:
+Front row, on the outside, rims 18 mm lower than the back row, starting just behind the driver housing and running toward the back:
 
 5. Milwaukee 6-in-1 strippers, nose down.
 6. Knipex Cobra, nose down.
@@ -36,7 +36,7 @@ Each row is one flat deck with the pocket mouths flush in it, and every mouth ha
 | Level | 36 x 25 mm | 100 mm | ~65 mm |
 | Big wrench | 38 x 19 mm | 100 mm | ~110 mm |
 | Small wrench | 30 x 16 mm | 100 mm | ~65 mm |
-| Driver | 20 mm bore, 34 mm counterbore 18 mm deep | 110 mm | ~90 mm of handle |
+| Driver | 20 mm bore, 34 mm counterbore 32 mm deep | 124 mm | rubber handle only |
 | Strippers | 48 x 18 mm at rim, 20 mm wide at floor | 95 mm | ~110 mm |
 | Cobra | 50 x 14 mm at rim, 22 mm wide at floor | 95 mm | ~85 mm |
 
@@ -50,7 +50,7 @@ Sized for a 1-1/2 in wide, 1/8 in thick belt. The slot is 42 mm tall with a 7.2 
 
 | | |
 |---|---|
-| Height including belt tab | 189 mm |
+| Height including belt tab | 195 mm |
 | Chord across the outside | ~194 mm |
 | Wrap around the leg | ~93 degrees |
 | Leg circumference it is curved for | 22 in (parameter `thigh_circ_in`) |
@@ -70,7 +70,7 @@ Open `tool_pouch.scad` and edit the parameter block at the top:
 - `thigh_circ_in` changes the curve of the back.
 - `belt_w`, `belt_t` resize the belt slot.
 - `front_drop` sets how much lower the front deck sits.
-- `driver_shaft`, `handle_in` set how deep the driver handle nests. Measure from the bottom of the handle to the tip of the bit and put that in `driver_shaft`.
+- `driver_shaft` is collar face to bit tip, `collar_len` is the collar plus green band up to the rubber. The deck top lands 1 mm above the green band.
 - `blend_r` is the smoothing radius. Lower it (7 or so) to get the scalloped look back.
 - The `back` and `front` tables hold each pocket's width, thickness, depth, and taper.
 - `band_h = 4` gives a fast preview. Set it back to 1 before exporting.

@@ -40,10 +40,12 @@ show_tools    = false;     // draw the tools in place (preview only)
 pouch_color   = [0.30, 0.34, 0.40];   // preview colour of the pouch (alpha < 1 shows what is inside)
 
 // driver (11-in-1) fit
-driver_shaft  = 98;        // shaft + flip socket + bit, collar face to bit tip (from photo)
-driver_handle = 31;        // handle diameter (from photo, ~1.2 in)
-handle_in     = 12;        // how far the handle sits down inside the deck
+driver_shaft  = 98;        // yellow collar face to bit tip (from photo)
+collar_len    = 25;        // yellow collar + green band, up to where the rubber handle starts (from photo)
+driver_handle = 31;        // yellow collar diameter (from photo, ~1.2 in)
+handle_in     = collar_len + 1;   // deck top sits 1 mm above the green band, right at the rubber
 cb_extra      = 6;         // counterbore is this much deeper than handle_in (shaft bottoms first)
+bottom_extra  = 6;         // extra floor under everything so the driver bore fits
 
 $fn = 40;
 
@@ -62,7 +64,7 @@ slot_gap = belt_t + belt_extra_t;
 
 top_back  = deck_back;                    // back deck height
 top_front = deck_back - front_drop;       // front deck height
-z_bottom  = -(front_drop + floor_t);      // outer bottom of the whole pouch
+z_bottom  = -(front_drop + floor_t + bottom_extra);   // outer bottom of the whole pouch
 
 cb_dia   = driver_handle + 3;
 cb_depth = handle_in + cb_extra;
@@ -82,19 +84,21 @@ function b_rr(i) = back[i][4];
 function b_cbd(i) = back[i][5];
 function b_cbh(i) = back[i][6];
 function b_wmax(i) = max(b_w(i), b_cbd(i));      // width used for spacing
+function b_tmax(i) = max(b_t(i), b_cbd(i));      // radial size used for placement
 
-// front-row pockets: [name, thickness, depth, profile [[z_from_floor, width], ...]]
+// front-row pockets: [name, thickness, depth, profile [[z_from_floor, width], ...], thickness of the back pocket behind it]
 front = [
-    ["strippers", 15 + clear_t, 95, [[0, 20], [40, 32], [95, 48]]],
-    ["cobra",     11 + clear_t, 95, [[0, 22], [50, 50], [95, 50]]],
+    ["strippers", 15 + clear_t, 95, [[0, 20], [40, 32], [95, 48]], 16 + clear_t],   // sits over the wrenches
+    ["cobra",     11 + clear_t, 95, [[0, 22], [50, 50], [95, 50]], 22 + clear_t],   // sits over the level
 ];
-t_back_max_under_front = 20;  // thickest back pocket under the front row (big wrench)
+function f_behind(i) = front[i][4];
+t_back_max_under_front = 20;  // reference only (spacing)
 
 r_ref_b = R + wall_back + 10;                                 // reference radius for back spacing
 r_ref_f = R + wall_back + t_back_max_under_front + wall + 8;  // ... for front spacing
 
-function r_back(i)  = R + wall_back + b_t(i) / 2;
-function r_front(i) = R + wall_back + t_back_max_under_front + wall + front[i][1] / 2;
+function r_back(i)  = R + wall_back + b_tmax(i) / 2;
+function r_front(i) = R + wall_back + f_behind(i) + wall + front[i][1] / 2;
 
 // arc positions (mm along r_ref_b) of the back pocket centres
 function s_back(i) = wall_out + (i == 0 ? 0 : s_back_end(i - 1) + wall) + b_wmax(i) / 2;
@@ -103,10 +107,13 @@ back_total = s_back_end(len(back) - 1) + wall_out;            // full arc length
 A_total = back_total / r_ref_b * 180 / PI;                    // total angle of the pouch
 function a_back(i) = s_back(i) / r_ref_b * 180 / PI;
 
-// front row: front (outer) edge aligned with the front edge of the back row
+// front row: its front edge sits just behind the driver housing (the driver's counterbore
+// is wider than anything else, so nothing may sit radially in front of it)
 function w_top(i) = front[i][3][len(front[i][3]) - 1][1];
 function s_front(i) = wall_out + (i == 0 ? 0 : s_front(i - 1) - wall_out + w_top(i - 1) / 2 + front_gap) + w_top(i) / 2;
-function a_front(i) = A_total - s_front(i) / r_ref_f * 180 / PI;
+i_drv = len(back) - 1;
+A_front_face = a_back(i_drv) - (b_wmax(i_drv) / 2 + wall - wall_out) / r_ref_f * 180 / PI;
+function a_front(i) = A_front_face - s_front(i) / r_ref_f * 180 / PI;
 function z_floor_front(i) = top_front - front[i][2];
 
 // belt
@@ -275,9 +282,9 @@ module m_driver() {                          // Klein 11-in-1 with 3/8 flip sock
     color(C_black) { cylinder(d = 6.35, h = 26, $fn = 6);                      // bit
                      translate([0, 0, 24]) cylinder(d = 14, h = 40);            // flip socket
                      translate([0, 0, 64]) cylinder(d = 8, h = 34); }           // shaft
-    color(C_yellow) translate([0, 0, driver_shaft]) cylinder(d = driver_handle, h = 10);   // collar
-    color(C_green)  translate([0, 0, driver_shaft + 10]) cylinder(d = driver_handle - 2, h = 18);
-    color(C_black)  translate([0, 0, driver_shaft + 28]) cylinder(d = driver_handle, h = 70);
+    color(C_yellow) translate([0, 0, driver_shaft]) cylinder(d = driver_handle, h = 11);                 // collar
+    color(C_green)  translate([0, 0, driver_shaft + 11]) cylinder(d = driver_handle - 5, h = collar_len - 11); // green band
+    color(C_black)  translate([0, 0, driver_shaft + collar_len]) cylinder(d = driver_handle + 1, h = 90);  // rubber handle
 }
 module m_strippers() {                       // Milwaukee 6-in-1, nose down, 205 long
     color(C_black) { taper(6, 8, 0, 9, 22, 60); box(10, 32, 60, 95); }
