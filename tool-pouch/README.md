@@ -36,7 +36,7 @@ Each row is one flat deck with the pocket mouths flush in it, and every mouth ha
 | Level | 36 x 25 mm | 100 mm | ~65 mm |
 | Big wrench | 38 x 19 mm | 100 mm | ~110 mm |
 | Small wrench | 30 x 16 mm | 100 mm | ~65 mm |
-| Driver | 20 mm bore, 31 mm counterbore 18 mm deep | 117 mm | ~90 mm of handle |
+| Driver | 20 mm bore, 34 mm counterbore 18 mm deep | 110 mm | ~90 mm of handle |
 | Strippers | 48 x 18 mm at rim, 20 mm wide at floor | 95 mm | ~110 mm |
 | Cobra | 50 x 14 mm at rim, 22 mm wide at floor | 95 mm | ~85 mm |
 
@@ -51,8 +51,8 @@ Sized for a 1-1/2 in wide, 1/8 in thick belt. The slot is 42 mm tall with a 7.2 
 | | |
 |---|---|
 | Height including belt tab | 189 mm |
-| Chord across the outside | ~191 mm |
-| Wrap around the leg | ~91 degrees |
+| Chord across the outside | ~194 mm |
+| Wrap around the leg | ~93 degrees |
 | Leg circumference it is curved for | 22 in (parameter `thigh_circ_in`) |
 
 ## Printing

@@ -39,8 +39,8 @@ band_h        = 1;         // layer height of the sculpted shell (1 = final, 4 =
 show_tools    = false;     // draw translucent tool stand-ins (preview only)
 
 // driver (11-in-1) fit
-driver_shaft  = 105;       // shaft + flip socket length below the handle
-driver_handle = 28;        // handle diameter
+driver_shaft  = 98;        // shaft + flip socket + bit, collar face to bit tip (from photo)
+driver_handle = 31;        // handle diameter (from photo, ~1.2 in)
 handle_in     = 12;        // how far the handle sits down inside the deck
 cb_extra      = 6;         // counterbore is this much deeper than handle_in (shaft bottoms first)
 
@@ -50,7 +50,7 @@ $fn = 40;
 // level: 165 long, 32 wide, ~22 thick        -> pocket 36 x 25
 // big wrench: 210 long, 11/16 head ~34 dia, 16 thick -> 38 x 19
 // small wrench: 165 long, 7/16 head ~26 dia, 13 thick -> 30 x 16
-// driver: shaft + flip socket ~105 long, max 14 dia; handle 28 dia -> bore 20, counterbore 31
+// driver: shaft + flip socket + bit ~98 long, max 14 dia; handle 31 dia -> bore 20, counterbore 34
 // strippers: 205 long, 15 thick at pivot; nose 12 wide, handles ~46 wide at 95 up
 // cobra: 180 long, 11 thick at joint; nose 14, joint 46 wide at ~55 up
 
