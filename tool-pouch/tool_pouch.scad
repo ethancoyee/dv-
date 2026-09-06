@@ -157,14 +157,20 @@ module place2d(a, r) { rotate(a) translate([r, 0]) children(); }
 module at_cell(i) { place(c_a(i), c_r(i)) children(); }
 module at_cell2d(i) { place2d(c_a(i), c_r(i)) children(); }
 
-// straight pocket with a lead-in chamfer at the mouth
-module straight_cavity(w, t, z0, rim, rr) {
+// lead-in chamfer at a pocket mouth: 45 degrees over the last mouth_chamfer mm,
+// then straight up (so it clears the deck), built separately so the pocket
+// below stays exactly the nominal size
+module mouth(w, t, rim, rr) {
     hull() {
-        slice(z0, w, t, 0, rr);
         slice(rim - mouth_chamfer, w, t, 0, rr);
         slice(rim, w, t, mouth_chamfer, rr);
         slice(rim + 60, w, t, mouth_chamfer, rr);
     }
+}
+// straight pocket, exact size from the floor to the deck, plus the lead-in
+module straight_cavity(w, t, z0, rim, rr) {
+    hull() { slice(z0, w, t, 0, rr); slice(rim + 60, w, t, 0, rr); }
+    mouth(w, t, rim, rr);
 }
 
 function lerp(a, b, f) = a + (b - a) * f;
@@ -194,11 +200,10 @@ module cavity(i) {
         } else if (is_taper(i)) {
             prof = c_prof(i);
             hull() {
-                for (p = prof) if (z0 + p[0] <= rim - mouth_chamfer) slice(z0 + p[0], p[1], t, 0, rr);
-                slice(rim - mouth_chamfer, w, t, 0, rr);
-                slice(rim, w, t, mouth_chamfer, rr);
-                slice(rim + 60, w, t, mouth_chamfer, rr);
+                for (p = prof) slice(z0 + p[0], p[1], t, 0, rr);
+                slice(rim + 60, w, t, 0, rr);
             }
+            mouth(w, t, rim, rr);
         } else {
             straight_cavity(w, t, z0, rim, rr);
         }
