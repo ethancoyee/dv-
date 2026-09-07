@@ -10,6 +10,7 @@ Parametric OpenSCAD model of a belt-hung pouch that wraps the outside of the thi
 | `out/tool_pouch.stl` | Ready to slice, millimetres, right thigh, already in print orientation. |
 | `out/tool_pouch.3mf` | Same model as 3MF for Bambu Studio. |
 | `out/tool_pouch_blender.stl` | Same model moved to the origin, for editing in Blender. |
+| `out/tool_pouch.blend` | Blender 5.0 file with the model already imported, in millimetres. |
 | `previews/*.png` | Renders, and renders with translucent tool stand-ins. |
 | `fix_tjunctions.py` | Makes the OpenSCAD export watertight (used by `export.sh`). |
 | `export.sh` | Re-renders the STL/3MF from the .scad and cleans the mesh. |
