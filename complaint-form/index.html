@@ -1,0 +1,1259 @@
+<title>Grievance Form DV-1140-B</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@400;500;600;700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Libre+Baskerville:ital@0;1&display=swap">
+<style>
+  :root{
+    --paper:#E9E3D2;
+    --paper-2:#DFD8C4;
+    --card:#F3EEE0;
+    --ink:#221F18;
+    --ink-2:#5A5442;
+    --rule:#A8A08A;
+    --rule-soft:#CBC4AE;
+    --stamp:#8E3229;
+    --official:#1E3C57;
+    --void:#8C866F;
+    --tint:rgba(142,50,41,.07);
+    --shadow:rgba(34,31,24,.16);
+
+    --f-label:"Archivo Narrow","Helvetica Neue",Arial,sans-serif;
+    --f-data:"Courier Prime","Courier New",monospace;
+    --f-legal:"Libre Baskerville",Georgia,"Times New Roman",serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#15140E;
+      --paper-2:#1C1A13;
+      --card:#201E16;
+      --ink:#E4DDC7;
+      --ink-2:#A49C82;
+      --rule:#4D4737;
+      --rule-soft:#3A3529;
+      --stamp:#CC6155;
+      --official:#86AECE;
+      --void:#6E6853;
+      --tint:rgba(204,97,85,.10);
+      --shadow:rgba(0,0,0,.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#15140E;
+    --paper-2:#1C1A13;
+    --card:#201E16;
+    --ink:#E4DDC7;
+    --ink-2:#A49C82;
+    --rule:#4D4737;
+    --rule-soft:#3A3529;
+    --stamp:#CC6155;
+    --official:#86AECE;
+    --void:#6E6853;
+    --tint:rgba(204,97,85,.10);
+    --shadow:rgba(0,0,0,.5);
+  }
+
+  *{box-sizing:border-box}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--f-label);
+    font-size:16px;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{
+    max-width:760px;
+    margin:0 auto;
+    padding-inline:16px;
+    padding-block:0 64px;
+  }
+
+  /* ---------- status rail ---------- */
+  .rail{
+    position:sticky;
+    top:0;
+    z-index:20;
+    background:var(--paper-2);
+    border-bottom:2px solid var(--ink);
+    box-shadow:0 2px 0 var(--rule-soft);
+  }
+  .rail-inner{
+    max-width:760px;
+    margin:0 auto;
+    padding-inline:16px;
+    padding-block:8px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:4px 22px;
+    align-items:baseline;
+  }
+  .stat{display:flex;gap:7px;align-items:baseline;min-width:0}
+  .stat-k{
+    font-size:10px;
+    font-weight:600;
+    letter-spacing:.13em;
+    text-transform:uppercase;
+    color:var(--void);
+    white-space:nowrap;
+  }
+  .stat-v{
+    font-family:var(--f-data);
+    font-size:13px;
+    font-variant-numeric:tabular-nums;
+    color:var(--ink);
+    white-space:nowrap;
+  }
+  .stat-v.bad{color:var(--stamp)}
+  .rail-meter{height:5px;background:var(--rule-soft);position:relative;overflow:hidden}
+  .rail-meter i{
+    display:block;height:100%;width:6%;
+    background:repeating-linear-gradient(135deg,var(--stamp) 0 5px,transparent 5px 10px),var(--stamp);
+    transition:width .45s ease;
+  }
+
+  /* ---------- masthead ---------- */
+  .sheet{
+    background:var(--card);
+    border:2px solid var(--ink);
+    border-top:none;
+    box-shadow:0 10px 26px -18px var(--shadow);
+  }
+  .tear{
+    height:11px;
+    border-bottom:2px solid var(--ink);
+    background:
+      repeating-linear-gradient(90deg,var(--ink) 0 3px,transparent 3px 9px) 0 100%/100% 2px no-repeat,
+      var(--paper-2);
+  }
+  .masthead{
+    padding:22px 22px 16px;
+    border-bottom:1px solid var(--rule);
+    display:grid;
+    grid-template-columns:1fr auto;
+    gap:16px 20px;
+    align-items:start;
+  }
+  .agency{
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--official);
+  }
+  .formtitle{
+    font-family:var(--f-label);
+    font-weight:700;
+    font-size:clamp(26px,6vw,40px);
+    line-height:1.04;
+    letter-spacing:-.015em;
+    margin:6px 0 6px;
+    text-wrap:balance;
+  }
+  .subtitle{
+    font-family:var(--f-legal);
+    font-style:italic;
+    font-size:13px;
+    line-height:1.6;
+    color:var(--ink-2);
+    max-width:46ch;
+  }
+  .formcode{
+    font-family:var(--f-data);
+    font-size:11px;
+    line-height:1.7;
+    text-align:right;
+    color:var(--ink-2);
+    border:1px solid var(--rule);
+    padding:8px 10px;
+    white-space:nowrap;
+  }
+  .formcode b{display:block;color:var(--ink);font-size:13px}
+  @media (max-width:560px){
+    .masthead{grid-template-columns:1fr}
+    .formcode{text-align:left;white-space:normal}
+  }
+
+  .notice{
+    padding:10px 22px;
+    background:var(--tint);
+    border-bottom:1px solid var(--rule);
+    font-size:12px;
+    letter-spacing:.03em;
+    color:var(--stamp);
+    font-weight:600;
+  }
+
+  /* ---------- sections ---------- */
+  .step{padding:24px 22px 28px}
+  .eyebrow{
+    font-size:10px;
+    font-weight:700;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--stamp);
+    display:flex;
+    gap:10px;
+    align-items:center;
+  }
+  .eyebrow::after{content:"";flex:1;height:1px;background:var(--rule-soft)}
+  h2{
+    font-size:23px;
+    font-weight:700;
+    letter-spacing:-.01em;
+    margin:8px 0 6px;
+    text-wrap:balance;
+  }
+  .lede{
+    font-family:var(--f-legal);
+    font-size:13px;
+    line-height:1.65;
+    color:var(--ink-2);
+    margin:0 0 20px;
+    max-width:62ch;
+  }
+
+  .fields{display:grid;gap:18px}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media (max-width:560px){.row{grid-template-columns:1fr}}
+
+  .field{display:flex;flex-direction:column;gap:5px;min-width:0}
+  label,.lab{
+    font-size:10.5px;
+    font-weight:600;
+    letter-spacing:.13em;
+    text-transform:uppercase;
+    color:var(--ink-2);
+  }
+  .req{color:var(--stamp)}
+  .hint{
+    font-family:var(--f-legal);
+    font-style:italic;
+    font-size:11.5px;
+    line-height:1.55;
+    color:var(--void);
+  }
+  input[type=text],input[type=email],input[type=tel],input[type=date],textarea,select{
+    font-family:var(--f-data);
+    font-size:15px;
+    color:var(--ink);
+    background:transparent;
+    border:none;
+    border-bottom:1.5px solid var(--rule);
+    padding:7px 2px;
+    width:100%;
+    border-radius:0;
+  }
+  textarea{
+    border:1.5px solid var(--rule);
+    padding:10px;
+    min-height:96px;
+    resize:vertical;
+    line-height:1.55;
+  }
+  select{
+    border:1.5px solid var(--rule);
+    padding:9px 8px;
+    appearance:none;
+    background-image:linear-gradient(45deg,transparent 50%,var(--ink-2) 50%),linear-gradient(135deg,var(--ink-2) 50%,transparent 50%);
+    background-position:calc(100% - 16px) 55%,calc(100% - 11px) 55%;
+    background-size:5px 5px,5px 5px;
+    background-repeat:no-repeat;
+  }
+  select option:disabled{color:var(--void)}
+  input:focus-visible,textarea:focus-visible,select:focus-visible,button:focus-visible,.cap-cell:focus-visible{
+    outline:2.5px solid var(--official);
+    outline-offset:2px;
+  }
+  input::placeholder,textarea::placeholder{color:var(--void);opacity:1}
+  input:disabled,textarea:disabled,select:disabled{color:var(--void);cursor:not-allowed}
+
+  .choice{display:flex;gap:9px;align-items:flex-start;padding:5px 0;cursor:pointer}
+  .choice input{margin:3px 0 0;accent-color:var(--stamp);flex:none}
+  .choice span{font-size:13.5px;line-height:1.5;color:var(--ink);text-transform:none;letter-spacing:0;font-weight:400}
+  .choice.off{cursor:not-allowed}
+  .choice.off span{color:var(--void)}
+  .choice.off .tag{color:var(--stamp);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+
+  fieldset{border:1px solid var(--rule-soft);padding:12px 14px;margin:0}
+  legend{
+    font-size:10.5px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;
+    color:var(--ink-2);padding:0 6px;
+  }
+
+  .counter{font-family:var(--f-data);font-size:11.5px;color:var(--void);font-variant-numeric:tabular-nums}
+  .counter.bad{color:var(--stamp)}
+  .counter.ok{color:var(--official)}
+
+  .err{
+    font-family:var(--f-data);
+    font-size:12px;
+    color:var(--stamp);
+    border-left:3px solid var(--stamp);
+    padding:6px 10px;
+    background:var(--tint);
+  }
+  .err[hidden]{display:none!important}
+
+  /* slider */
+  input[type=range]{width:100%;accent-color:var(--stamp)}
+  .scale{display:flex;justify-content:space-between;gap:8px;font-family:var(--f-data);font-size:10.5px;color:var(--void)}
+
+  /* office use box */
+  .officeuse{
+    border:1.5px dashed var(--rule);
+    padding:10px 12px;
+    background:var(--paper-2);
+  }
+
+  /* terms box */
+  .terms{
+    height:190px;
+    overflow-y:auto;
+    border:1.5px solid var(--rule);
+    padding:14px 16px;
+    background:var(--paper-2);
+    font-family:var(--f-legal);
+    font-size:12px;
+    line-height:1.75;
+    color:var(--ink-2);
+  }
+  .terms h4{
+    font-family:var(--f-label);
+    font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--ink);margin:16px 0 4px;
+  }
+  .terms h4:first-child{margin-top:0}
+  .terms p{margin:0 0 8px}
+
+  /* captcha */
+  .cap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;max-width:280px}
+  .cap-cell{
+    aspect-ratio:1;
+    border:1.5px solid var(--rule);
+    background:var(--paper-2);
+    color:var(--ink);
+    font-size:26px;
+    line-height:1;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+    max-width:100%;
+  }
+  .cap-cell[aria-pressed="true"]{
+    border-color:var(--stamp);
+    box-shadow:inset 0 0 0 3px var(--stamp);
+    background:var(--tint);
+  }
+
+  /* hold screen */
+  .hold{text-align:center;padding:18px 0 6px}
+  .hold-num{
+    font-family:var(--f-data);
+    font-size:clamp(46px,13vw,76px);
+    font-weight:700;
+    line-height:1;
+    font-variant-numeric:tabular-nums;
+    color:var(--stamp);
+  }
+  .hold-cap{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--void);margin-top:8px}
+  .bar{height:9px;border:1.5px solid var(--rule);margin:20px 0 6px;background:var(--paper-2)}
+  .bar i{display:block;height:100%;background:var(--rule);width:0%;transition:width .4s linear}
+
+  /* buttons */
+  .actions{
+    display:flex;flex-wrap:wrap;gap:12px;align-items:center;
+    margin-top:26px;padding-top:18px;border-top:1px solid var(--rule-soft);
+  }
+  .btn{
+    font-family:var(--f-label);
+    font-size:12.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;
+    padding:12px 22px;
+    border:2px solid var(--ink);
+    background:var(--ink);
+    color:var(--card);
+    cursor:pointer;
+    border-radius:0;
+  }
+  .btn:hover{background:var(--stamp);border-color:var(--stamp)}
+  .btn:disabled{background:transparent;color:var(--void);border-color:var(--rule);cursor:not-allowed}
+  .btn-ghost{
+    background:transparent;color:var(--ink-2);border:1px solid var(--rule);
+    font-weight:500;padding:12px 18px;
+  }
+  .btn-ghost:hover{background:var(--tint);color:var(--stamp);border-color:var(--stamp)}
+  .btn-note{font-family:var(--f-legal);font-style:italic;font-size:11.5px;color:var(--void);flex:1;min-width:180px}
+
+  /* receipt */
+  .receipt{border:2px solid var(--ink);padding:20px;background:var(--paper-2);position:relative;overflow:hidden}
+  .stamp{
+    display:inline-block;
+    border:3px double var(--stamp);
+    color:var(--stamp);
+    font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+    padding:8px 16px;
+    transform:rotate(-3.5deg);
+    margin-bottom:14px;
+  }
+  .kv{
+    display:grid;grid-template-columns:auto 1fr;gap:5px 16px;
+    font-family:var(--f-data);font-size:13px;font-variant-numeric:tabular-nums;
+    border-top:1px solid var(--rule-soft);padding-top:12px;
+  }
+  .kv dt{font-family:var(--f-label);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--void);padding-top:2px}
+  .kv dd{margin:0;word-break:break-word}
+  .verdict{
+    font-family:var(--f-legal);font-size:13px;line-height:1.7;color:var(--ink-2);
+    margin:16px 0 0;padding-top:14px;border-top:1px solid var(--rule-soft);
+  }
+  .verdict b{color:var(--stamp);font-style:normal}
+
+  .footnote{
+    font-family:var(--f-legal);font-style:italic;
+    font-size:11.5px;line-height:1.7;color:var(--void);
+    margin:18px 4px 0;text-align:center;
+  }
+  .footnote b{font-style:normal;color:var(--ink-2)}
+
+  [hidden]{display:none!important}
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none!important;animation:none!important}
+  }
+</style>
+
+<div class="rail">
+  <div class="rail-inner">
+    <div class="stat"><span class="stat-k">Section</span><span class="stat-v" id="s-step">1 of 6</span></div>
+    <div class="stat"><span class="stat-k">Queue position</span><span class="stat-v bad" id="s-queue">1,247</span></div>
+    <div class="stat"><span class="stat-k">Est. response</span><span class="stat-v" id="s-eta">6–8 business days</span></div>
+    <div class="stat"><span class="stat-k">Office</span><span class="stat-v bad">Closed</span></div>
+  </div>
+  <div class="rail-meter"><i id="s-bar"></i></div>
+</div>
+
+<div class="wrap">
+  <div class="sheet">
+    <div class="tear"></div>
+
+    <header class="masthead">
+      <div>
+        <div class="agency">Office of Grievance Intake &middot; Sub-Bureau of Preliminary Listening</div>
+        <h1 class="formtitle">Application to Be Heard</h1>
+        <p class="subtitle">Complete every section in order. Sections may not be revisited. Completing this form does not constitute a complaint, notice of a complaint, or the intention to make one.</p>
+      </div>
+      <div class="formcode">
+        <b>DV&#8209;1140&#8209;B</b>
+        Rev. 14 (2026)<br>
+        Supersedes DV&#8209;1140&#8209;A<br>
+        Superseded by DV&#8209;1140&#8209;C
+      </div>
+    </header>
+
+    <div class="notice" id="notice">Counter service is currently closed. Complaints are accepted in person on Tuesdays between 2:00 PM and 2:06 PM.</div>
+
+    <form id="form" novalidate>
+
+      <!-- ============ 1 ============ -->
+      <section class="step" data-step="1">
+        <div class="eyebrow">Section 1</div>
+        <h2>Eligibility pre-screening</h2>
+        <p class="lede">Before a grievance can be received, you must first establish that you are permitted to be dissatisfied. Answers given here may be used to determine that you are not.</p>
+
+        <div class="fields">
+          <fieldset>
+            <legend>1.1 &mdash; Prior contact <span class="req">*</span></legend>
+            <label class="choice"><input type="radio" name="prior" id="prior-yes" value="yes"><span>Yes, I have complained before.</span></label>
+            <label class="choice"><input type="radio" name="prior" id="prior-no" value="no"><span>No, this is my first complaint.</span></label>
+            <label class="choice"><input type="radio" name="prior" id="prior-unsure" value="unsure"><span>I am no longer certain.</span></label>
+            <p class="hint">First-time complainants must first file Form DV&#8209;1140&#8209;A. Repeat complainants are subject to the repeat-complainant review. Uncertain complainants are subject to both.</p>
+          </fieldset>
+
+          <fieldset>
+            <legend>1.2 &mdash; Mandatory acknowledgements <span class="req">*</span></legend>
+            <label class="choice"><input type="checkbox" name="ack" id="ack-1"><span>I have read the Complaints Charter (40 pages, unavailable).</span></label>
+            <label class="choice"><input type="checkbox" name="ack" id="ack-2"><span>I have observed the mandatory 10-business-day cooling-off period, beginning today.</span></label>
+            <label class="choice"><input type="checkbox" name="ack" id="ack-3"><span>I am complaining on my own behalf and not on behalf of my feelings.</span></label>
+            <label class="choice"><input type="checkbox" name="ack" id="ack-4"><span>I understand that this form is not a complaint.</span></label>
+          </fieldset>
+
+          <div class="row">
+            <div class="field">
+              <label for="incident-date">Date of incident <span class="req">*</span></label>
+              <input type="date" id="incident-date" name="incident-date">
+              <p class="hint">Incidents fewer than 30 days old are premature. Incidents more than 30 days old have expired.</p>
+            </div>
+            <div class="field">
+              <label for="incident-time">Time of incident, to the minute <span class="req">*</span></label>
+              <input type="text" id="incident-time" name="incident-time" placeholder="e.g. 14:37" inputmode="numeric">
+              <p class="hint">Estimates are not accepted. Precision is not verified.</p>
+            </div>
+          </div>
+        </div>
+
+        <p class="err" id="err-1" hidden></p>
+        <div class="actions">
+          <button type="button" class="btn" data-next>Verify eligibility</button>
+          <span class="btn-note">Verification does not confer eligibility.</span>
+        </div>
+      </section>
+
+      <!-- ============ 2 ============ -->
+      <section class="step" data-step="2" hidden>
+        <div class="eyebrow">Section 2</div>
+        <h2>Identity verification</h2>
+        <p class="lede">We must confirm that you are the person to whom nothing will be done.</p>
+
+        <div class="fields">
+          <div class="row">
+            <div class="field">
+              <label for="name-legal">Full legal name <span class="req">*</span></label>
+              <input type="text" id="name-legal" name="name-legal" autocomplete="off">
+            </div>
+            <div class="field">
+              <label for="name-then">Name at time of incident <span class="req">*</span></label>
+              <input type="text" id="name-then" name="name-then" autocomplete="off">
+              <p class="hint">If unchanged, write it again in full.</p>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="ref-prior">Reference number of your previous complaint <span class="req">*</span></label>
+            <input type="text" id="ref-prior" name="ref-prior" placeholder="DV-0000-0000-0000" autocomplete="off">
+            <p class="hint">If you have not complained before, enter the reference number you would have been issued.</p>
+          </div>
+
+          <div class="row">
+            <div class="field">
+              <label for="phone">Telephone <span class="req">*</span></label>
+              <input type="tel" id="phone" name="phone" autocomplete="off">
+              <p class="hint">We will not call this number.</p>
+            </div>
+            <div class="field">
+              <label for="email">Email <span class="req">*</span></label>
+              <input type="email" id="email" name="email" autocomplete="off">
+              <p class="hint">We will not email this address.</p>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="postal">Postal address <span class="req">*</span></label>
+            <input type="text" id="postal" name="postal" autocomplete="off">
+            <p class="hint">Correspondence is issued by post. The current posting backlog extends to 2029.</p>
+          </div>
+
+          <div class="officeuse">
+            <label for="office-use">For office use only &mdash; do not write in this space</label>
+            <input type="text" id="office-use" name="office-use" autocomplete="off">
+            <p class="hint" id="office-warn">This space is reserved.</p>
+          </div>
+
+          <label class="choice"><input type="checkbox" id="consent-hold"><span>I consent to being placed on hold.</span></label>
+        </div>
+
+        <p class="err" id="err-2" hidden></p>
+        <div class="actions">
+          <button type="button" class="btn" data-next>Submit for validation</button>
+          <span class="btn-note">Validation is performed by a separate office.</span>
+        </div>
+      </section>
+
+      <!-- ============ 3 ============ -->
+      <section class="step" data-step="3" hidden>
+        <div class="eyebrow">Section 3</div>
+        <h2>Mandatory hold</h2>
+        <p class="lede">Your particulars are being carried to the validation office. Do not refresh this page. Refreshing returns you to Section 1 and forfeits your place in the queue.</p>
+
+        <div class="hold">
+          <div class="hold-num" id="hold-num">14</div>
+          <div class="hold-cap">Estimated seconds remaining</div>
+        </div>
+        <div class="bar"><i id="hold-bar"></i></div>
+        <p class="hint" id="hold-msg" style="text-align:center">Please remain on this page.</p>
+
+        <p class="err" id="err-3" hidden></p>
+        <div class="actions">
+          <button type="button" class="btn" data-next id="hold-next" disabled>Continue</button>
+          <button type="button" class="btn-ghost btn" id="hold-skip">Skip this wait</button>
+        </div>
+      </section>
+
+      <!-- ============ 4 ============ -->
+      <section class="step" data-step="4" hidden>
+        <div class="eyebrow">Section 4</div>
+        <h2>Classification of grievance</h2>
+        <p class="lede">Your grievance must be assigned to a receiving department before it can be declined by one.</p>
+
+        <div class="fields">
+          <div class="field">
+            <label for="dept">Receiving department <span class="req">*</span></label>
+            <select id="dept" name="dept">
+              <option value="" selected>&mdash; Select &mdash;</option>
+              <option value="" disabled>Billing and Overcharges (dissolved 2019)</option>
+              <option value="" disabled>Service Quality (no longer accepting)</option>
+              <option value="" disabled>Staff Conduct (merged into Staff Conduct)</option>
+              <option value="" disabled>Accessibility (inaccessible)</option>
+              <option value="" disabled>Complaints About Complaints (at capacity)</option>
+              <option value="other">Other</option>
+            </select>
+            <p class="hint">Departments shown in grey have been reorganised. Their grievances continue to exist.</p>
+          </div>
+
+          <div class="field" id="sub-wrap" hidden>
+            <label for="subdept">Sub-category of &ldquo;Other&rdquo; <span class="req">*</span></label>
+            <select id="subdept" name="subdept">
+              <option value="" selected>&mdash; Select &mdash;</option>
+              <option value="" disabled>Other (Billing) &mdash; see dissolved department</option>
+              <option value="" disabled>Other (Conduct) &mdash; under review since 2021</option>
+              <option value="" disabled>Other (Delay) &mdash; delayed</option>
+              <option value="other-other">Other (Other)</option>
+            </select>
+          </div>
+
+          <fieldset>
+            <legend>4.3 &mdash; Severity of grievance <span class="req">*</span></legend>
+            <input type="range" id="severity" name="severity" min="1" max="5" value="3" aria-describedby="sev-out">
+            <div class="scale"><span>Mild inconvenience</span><span>Mild inconvenience</span></div>
+            <p class="hint" id="sev-out">Recorded severity: <b>mild inconvenience</b>.</p>
+          </fieldset>
+
+          <fieldset>
+            <legend>4.4 &mdash; Preferred outcome <span class="req">*</span></legend>
+            <label class="choice off"><input type="radio" name="outcome" disabled><span>An apology <span class="tag">&mdash; unavailable</span></span></label>
+            <label class="choice off"><input type="radio" name="outcome" disabled><span>A refund <span class="tag">&mdash; unavailable</span></span></label>
+            <label class="choice off"><input type="radio" name="outcome" disabled><span>Acknowledgement that this occurred <span class="tag">&mdash; under review since 2019</span></span></label>
+            <label class="choice"><input type="radio" name="outcome" id="outcome-none" value="none" checked><span>Nothing.</span></label>
+          </fieldset>
+        </div>
+
+        <p class="err" id="err-4" hidden></p>
+        <div class="actions">
+          <button type="button" class="btn" data-next>Classify</button>
+          <span class="btn-note">Classification may be reassigned without notice.</span>
+        </div>
+      </section>
+
+      <!-- ============ 5 ============ -->
+      <section class="step" data-step="5" hidden>
+        <div class="eyebrow">Section 5 &middot; Part 1 of 2</div>
+        <h2>Statement of grievance</h2>
+        <p class="lede">State your grievance in full. Your statement must be complete, unambiguous, and no longer than forty characters.</p>
+
+        <div class="fields">
+          <div class="field">
+            <label for="short-statement">Complete statement <span class="req">*</span></label>
+            <textarea id="short-statement" name="short-statement" maxlength="40" style="min-height:64px"></textarea>
+            <p class="counter" id="short-count">0 / 40 characters used</p>
+            <p class="hint">Statements exceeding forty characters are truncated and treated as withdrawn.</p>
+          </div>
+        </div>
+
+        <p class="err" id="err-5" hidden></p>
+        <div class="actions">
+          <button type="button" class="btn" data-next>Record statement</button>
+        </div>
+      </section>
+
+      <!-- ============ 6 ============ -->
+      <section class="step" data-step="6" hidden>
+        <div class="eyebrow">Section 6 &middot; Part 2 of 2</div>
+        <h2>Statement of grievance, restated</h2>
+        <p class="lede">Restate the grievance recorded in Section 5 using no fewer than five hundred characters. Do not repeat yourself. Do not introduce new information.</p>
+
+        <div class="fields">
+          <div class="field">
+            <label class="lab">Your recorded statement</label>
+            <p class="counter ok" id="echo-short" style="font-size:14px">&mdash;</p>
+          </div>
+          <div class="field">
+            <label for="long-statement">Restatement <span class="req">*</span></label>
+            <textarea id="long-statement" name="long-statement" style="min-height:170px"></textarea>
+            <p class="counter bad" id="long-count">500 characters required</p>
+          </div>
+        </div>
+
+        <p class="err" id="err-6" hidden></p>
+        <div class="actions">
+          <button type="button" class="btn" data-next>Record restatement</button>
+        </div>
+      </section>
+
+      <!-- ============ 7 ============ -->
+      <section class="step" data-step="7" hidden>
+        <div class="eyebrow">Section 7</div>
+        <h2>Human verification</h2>
+        <p class="lede">Grievances may only be submitted by human beings. Human beings may only be identified by this method.</p>
+
+        <div class="fields">
+          <div class="field">
+            <p class="lab" id="cap-prompt" style="font-size:13px;letter-spacing:.02em;text-transform:none;color:var(--ink);font-weight:400">Select every square containing <b>a grievance</b>.</p>
+            <div class="cap-grid" id="cap-grid" role="group" aria-labelledby="cap-prompt"></div>
+            <p class="hint" id="cap-note">Squares are re-issued after each attempt.</p>
+          </div>
+        </div>
+
+        <p class="err" id="err-7" hidden></p>
+        <div class="actions">
+          <button type="button" class="btn" id="cap-verify">Verify</button>
+          <span class="btn-note">Attempts recorded: <span id="cap-tries" class="counter">0</span></span>
+        </div>
+      </section>
+
+      <!-- ============ 8 ============ -->
+      <section class="step" data-step="8" hidden>
+        <div class="eyebrow">Section 8</div>
+        <h2>Attestation</h2>
+        <p class="lede">Read the following terms. You will be asked to confirm that you have read them, which you will not have.</p>
+
+        <div class="fields">
+          <div class="field">
+            <label class="lab" for="terms">Terms of grievance submission &mdash; scroll to the end to continue</label>
+            <div class="terms" id="terms" tabindex="0">
+              <h4>Article I &mdash; Nature of this form</h4>
+              <p>This form is an application to submit a grievance. It is not a grievance. Submission of this form does not create a grievance, indicate that a grievance exists, or oblige any person to believe that one might.</p>
+              <h4>Article II &mdash; Receipt</h4>
+              <p>Receipt of this form is acknowledged by the issuing of a reference number. The reference number acknowledges only the receipt of the reference number.</p>
+              <h4>Article III &mdash; Response</h4>
+              <p>The Office endeavours to respond to all applications within a reasonable period. The Office determines what is reasonable. The Office has determined that it is longer than this.</p>
+              <h4>Article IV &mdash; Amendment</h4>
+              <p>Sections of this form may not be revisited once completed. Errors discovered after completion may be corrected by beginning a new form, at which point the error will be preserved for comparison.</p>
+              <h4>Article V &mdash; Escalation</h4>
+              <p>You may escalate a grievance to the Review Panel. The Review Panel reviews the conduct of the Office in receiving grievances, not the grievance. The Review Panel last convened in 2017 and reported that receipt had occurred.</p>
+              <h4>Article VI &mdash; Withdrawal</h4>
+              <p>You may withdraw your application at any time by completing Form DV&#8209;1140&#8209;W, which is available on request. Requests are processed by the Office of Grievance Intake, in the order received.</p>
+              <h4>Article VII &mdash; Feelings</h4>
+              <p>The Office does not accept grievances submitted on behalf of a feeling. Where a grievance is found to be substantially a feeling, it will be returned with the feeling removed.</p>
+              <h4>Article VIII &mdash; Silence</h4>
+              <p>Where the Office does not respond, the matter is deemed resolved to the satisfaction of all parties. Where the Office does respond, the matter is deemed to be continuing.</p>
+              <h4>Article IX &mdash; This article</h4>
+              <p>This article is included so that Article VIII is not the last thing you read. You have now reached the end of the terms. This fact has been recorded.</p>
+            </div>
+          </div>
+
+          <label class="choice" id="terms-choice"><input type="checkbox" id="terms-ok" disabled><span id="terms-label">I have read and understood the terms. <span style="color:var(--void)">(Enabled once you reach the end.)</span></span></label>
+          <label class="choice"><input type="checkbox" id="attest-true"><span>I attest that the statements given are true, and that I am prepared to be told otherwise.</span></label>
+          <label class="choice"><input type="checkbox" id="attest-final"><span>I understand that submission is final, non-reversible, and non-binding on the Office.</span></label>
+
+          <div class="row">
+            <div class="field">
+              <label for="sig-1">Signature &mdash; type your full name <span class="req">*</span></label>
+              <input type="text" id="sig-1" name="sig-1" autocomplete="off">
+            </div>
+            <div class="field">
+              <label for="sig-2">Signature &mdash; type it again, identically <span class="req">*</span></label>
+              <input type="text" id="sig-2" name="sig-2" autocomplete="off">
+              <p class="hint">Discrepancies between signatures are recorded permanently.</p>
+            </div>
+          </div>
+        </div>
+
+        <p class="err" id="err-8" hidden></p>
+        <div class="actions">
+          <button type="button" class="btn" data-next>Attest</button>
+        </div>
+      </section>
+
+      <!-- ============ 9 ============ -->
+      <section class="step" data-step="9" hidden>
+        <div class="eyebrow">Section 9 &middot; Final</div>
+        <h2>Submission</h2>
+        <p class="lede">Your application is complete. Submit it below. It cannot be recalled, amended, or read back to you.</p>
+
+        <div class="fields">
+          <div class="field">
+            <label class="lab">Processing log</label>
+            <div class="terms" id="log" style="height:150px;font-family:var(--f-data);font-style:normal;font-size:12px">
+              <p style="margin:0;color:var(--void)">Awaiting submission.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button type="button" class="btn" id="submit-btn">Submit application</button>
+          <span class="btn-note">Submission does not constitute a complaint.</span>
+        </div>
+      </section>
+
+      <!-- ============ outcome ============ -->
+      <section class="step" data-step="10" hidden>
+        <div class="eyebrow">Outcome</div>
+        <h2>Your application has been received</h2>
+
+        <div class="receipt">
+          <div class="stamp">Received &middot; Not Read</div>
+          <dl class="kv">
+            <dt>Reference</dt><dd id="out-ref">&mdash;</dd>
+            <dt>Filed by</dt><dd id="out-name">&mdash;</dd>
+            <dt>Classification</dt><dd>Other (Other) &mdash; unassigned</dd>
+            <dt>Severity</dt><dd>Mild inconvenience</dd>
+            <dt>Queue position</dt><dd id="out-queue">&mdash;</dd>
+            <dt>Est. response</dt><dd id="out-eta">&mdash;</dd>
+            <dt>Time invested</dt><dd id="out-time">&mdash;</dd>
+          </dl>
+          <p class="verdict">
+            A review of your submission indicates that you have completed <b>Form DV&#8209;1140&#8209;B</b> (Application to Be Heard). Grievances of the classification <i>Other (Other)</i> are received on <b>Form DV&#8209;1140&#8209;C</b>.
+            Form DV&#8209;1140&#8209;C requires a valid DV&#8209;1140&#8209;B reference number, which you now have. Your reference number is valid for six minutes.
+          </p>
+        </div>
+
+        <p class="footnote">Applications begun: <b id="out-attempts">1</b>. Grievances heard: <b>0</b>.</p>
+
+        <div class="actions">
+          <button type="button" class="btn" id="restart-btn">Begin Form DV&#8209;1140&#8209;C</button>
+          <span class="btn-note">Form DV&#8209;1140&#8209;C is identical to Form DV&#8209;1140&#8209;B.</span>
+        </div>
+      </section>
+
+    </form>
+  </div>
+
+  <p class="footnote">Form DV&#8209;1140&#8209;B is a work of satire. No grievance you enter here leaves your browser, which is the one respect in which it is faithful to the original.</p>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var form = document.getElementById("form");
+  var steps = Array.prototype.slice.call(form.querySelectorAll(".step"));
+  var current = 1;
+  var declaredTotal = 6;
+  var queue = 1247;
+  var started = Date.now();
+  var attempts = 1;
+
+  try{
+    var stored = parseInt(localStorage.getItem("dv1140b-attempts"), 10);
+    if(stored > 0){ attempts = stored; }
+  }catch(e){}
+
+  var ETAS = [
+    "6–8 business days",
+    "8–12 business days",
+    "3–5 business months",
+    "5–9 business months",
+    "1–2 business years",
+    "2–4 business years",
+    "before the next review",
+    "after the next review",
+    "in due course",
+    "in due course"
+  ];
+  var etaIndex = 0;
+
+  var elStep = document.getElementById("s-step");
+  var elQueue = document.getElementById("s-queue");
+  var elEta = document.getElementById("s-eta");
+  var elBar = document.getElementById("s-bar");
+
+  function fmt(n){ return n.toLocaleString("en-US"); }
+
+  function paintRail(){
+    elStep.textContent = current + " of " + declaredTotal;
+    elQueue.textContent = fmt(queue);
+    elEta.textContent = ETAS[Math.min(etaIndex, ETAS.length - 1)];
+    var pct = Math.max(6, Math.min(92, Math.round((current / declaredTotal) * 88)));
+    elBar.style.width = pct + "%";
+  }
+
+  // The queue only ever grows.
+  setInterval(function(){
+    queue += 1 + Math.floor(Math.random() * 3);
+    elQueue.textContent = fmt(queue);
+  }, 4200);
+
+  function show(n){
+    steps.forEach(function(s){ s.hidden = (parseInt(s.dataset.step, 10) !== n); });
+    current = n;
+    if(n <= 9){
+      // Each completed section reveals that there were more sections.
+      declaredTotal = Math.max(declaredTotal, n + 1 + Math.floor(Math.random() * 3));
+      if(n >= 9){ declaredTotal = 9; }
+    }
+    paintRail();
+    var top = document.querySelector(".sheet");
+    if(top){ window.scrollTo({ top: top.offsetTop - 4, behavior: "smooth" }); }
+  }
+
+  function fail(id, msg){
+    var el = document.getElementById(id);
+    el.textContent = msg;
+    el.hidden = false;
+    return false;
+  }
+  function clearErr(id){
+    var el = document.getElementById(id);
+    if(el){ el.hidden = true; }
+  }
+
+  // ---------- Section 1 ----------
+  function check1(){
+    clearErr("err-1");
+    if(!form.querySelector('input[name="prior"]:checked')){
+      return fail("err-1", "1.1 is required. All available answers disqualify you; one must still be given.");
+    }
+    var acks = form.querySelectorAll('input[name="ack"]:checked');
+    if(acks.length < 4){
+      return fail("err-1", "All four acknowledgements in 1.2 are mandatory. " + acks.length + " of 4 given.");
+    }
+    if(!document.getElementById("incident-date").value){
+      return fail("err-1", "A date of incident is required, whether or not an incident occurred.");
+    }
+    if(!document.getElementById("incident-time").value.trim()){
+      return fail("err-1", "Time of incident is required to the minute. Approximations delay processing.");
+    }
+    return true;
+  }
+
+  // ---------- Section 2 ----------
+  var officeUse = document.getElementById("office-use");
+  var officeWarn = document.getElementById("office-warn");
+  var officeStrikes = 0;
+  officeUse.addEventListener("input", function(){
+    officeUse.value = "";
+    officeStrikes++;
+    officeWarn.textContent = officeStrikes === 1
+      ? "Please do not write in this space."
+      : "Please do not write in this space. Occurrences recorded: " + officeStrikes + ".";
+    officeWarn.style.color = "var(--stamp)";
+  });
+
+  function check2(){
+    clearErr("err-2");
+    var required = [
+      ["name-legal", "Full legal name is required."],
+      ["name-then", "Name at time of incident is required, including where it is the same name."],
+      ["ref-prior", "A previous reference number is required. Any value in the correct format is accepted; none is verified."],
+      ["phone", "A telephone number is required for the file."],
+      ["email", "An email address is required for the file."],
+      ["postal", "A postal address is required. Correspondence is issued by post only."]
+    ];
+    for(var i = 0; i < required.length; i++){
+      var el = document.getElementById(required[i][0]);
+      if(!el.value.trim()){
+        el.focus();
+        return fail("err-2", required[i][1]);
+      }
+    }
+    if(!document.getElementById("consent-hold").checked){
+      return fail("err-2", "You must consent to being placed on hold before you can be placed on hold.");
+    }
+    return true;
+  }
+
+  // ---------- Section 3: the hold ----------
+  var holdNum = document.getElementById("hold-num");
+  var holdBar = document.getElementById("hold-bar");
+  var holdMsg = document.getElementById("hold-msg");
+  var holdNext = document.getElementById("hold-next");
+  var holdSkip = document.getElementById("hold-skip");
+  var holdTimer = null;
+  var remaining = 14;
+  var holdPeak = 14;
+  var bumpsUsed = 0;
+  var skipUses = 0;
+
+  function paintHold(){
+    holdNum.textContent = remaining;
+    holdBar.style.width = Math.round(((holdPeak - remaining) / holdPeak) * 100) + "%";
+  }
+
+  function startHold(){
+    if(holdTimer){ return; }
+    remaining = 14; holdPeak = 14; bumpsUsed = 0;
+    holdNext.disabled = true;
+    paintHold();
+    holdTimer = setInterval(function(){
+      remaining--;
+      if(remaining === 8 && bumpsUsed === 0){
+        bumpsUsed = 1; remaining = 17; holdPeak = 17;
+        holdMsg.textContent = "Estimate revised. Your position in the queue is unchanged.";
+      } else if(remaining === 5 && bumpsUsed === 1){
+        bumpsUsed = 2; remaining = 11; holdPeak = 17;
+        holdMsg.textContent = "A second validator has joined and must be briefed.";
+      }
+      if(remaining <= 0){
+        remaining = 0;
+        clearInterval(holdTimer); holdTimer = null;
+        holdNext.disabled = false;
+        holdSkip.disabled = true;
+        holdMsg.textContent = "Validation complete. No findings were recorded.";
+      }
+      paintHold();
+    }, 650);
+  }
+
+  holdSkip.addEventListener("click", function(){
+    skipUses++;
+    remaining += 10;
+    holdPeak = Math.max(holdPeak, remaining);
+    holdMsg.textContent = skipUses === 1
+      ? "Wait extended by 10 seconds for attempting to skip the wait."
+      : "Wait extended by 10 seconds. Attempts to skip: " + skipUses + ".";
+    paintHold();
+  });
+
+  // ---------- Section 4 ----------
+  var dept = document.getElementById("dept");
+  var subWrap = document.getElementById("sub-wrap");
+  var subdept = document.getElementById("subdept");
+  dept.addEventListener("change", function(){
+    subWrap.hidden = (dept.value !== "other");
+  });
+
+  var severity = document.getElementById("severity");
+  var sevOut = document.getElementById("sev-out");
+  severity.addEventListener("input", function(){
+    sevOut.innerHTML = "Recorded severity: <b>mild inconvenience</b>.";
+  });
+
+  function check4(){
+    clearErr("err-4");
+    if(dept.value !== "other"){
+      return fail("err-4", "A receiving department is required. Departments shown in grey cannot receive grievances.");
+    }
+    if(subdept.value !== "other-other"){
+      return fail("err-4", "A sub-category of “Other” is required. Only Other (Other) is currently receiving.");
+    }
+    return true;
+  }
+
+  // ---------- Section 5 ----------
+  var shortStatement = document.getElementById("short-statement");
+  var shortCount = document.getElementById("short-count");
+  shortStatement.addEventListener("input", function(){
+    var n = shortStatement.value.length;
+    shortCount.textContent = n + " / 40 characters used";
+    shortCount.className = "counter" + (n >= 40 ? " bad" : "");
+  });
+
+  function check5(){
+    clearErr("err-5");
+    if(shortStatement.value.trim().length < 5){
+      return fail("err-5", "A complete statement of your grievance is required. Minimum 5 characters, maximum 40.");
+    }
+    return true;
+  }
+
+  // ---------- Section 6 ----------
+  var longStatement = document.getElementById("long-statement");
+  var longCount = document.getElementById("long-count");
+  longStatement.addEventListener("input", function(){
+    var n = longStatement.value.length;
+    if(n >= 500){
+      longCount.textContent = n + " characters. Requirement met.";
+      longCount.className = "counter ok";
+    } else {
+      longCount.textContent = (500 - n) + " characters still required (" + n + " of 500)";
+      longCount.className = "counter bad";
+    }
+  });
+
+  function check6(){
+    clearErr("err-6");
+    var n = longStatement.value.length;
+    if(n < 500){
+      return fail("err-6", "The restatement is " + (500 - n) + " characters short. Padding is detectable but not checked.");
+    }
+    return true;
+  }
+
+  // ---------- Section 7: verification ----------
+  var GLYPHS = ["✉", "⌛", "⚖", "⚠", "✎", "✇", "⚑", "✂", "☡"];
+  var capGrid = document.getElementById("cap-grid");
+  var capPrompt = document.getElementById("cap-prompt");
+  var capNote = document.getElementById("cap-note");
+  var capTriesEl = document.getElementById("cap-tries");
+  var capTries = 0;
+
+  var CHALLENGES = [
+    "Select every square containing <b>a grievance</b>.",
+    "Select every square that does <b>not</b> contain a grievance.",
+    "Select every square you selected the first time."
+  ];
+
+  function buildGrid(){
+    capGrid.innerHTML = "";
+    var pool = GLYPHS.slice().sort(function(){ return Math.random() - 0.5; });
+    for(var i = 0; i < 9; i++){
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "cap-cell";
+      b.setAttribute("aria-pressed", "false");
+      b.setAttribute("aria-label", "Square " + (i + 1));
+      b.textContent = pool[i];
+      b.addEventListener("click", function(){
+        var on = this.getAttribute("aria-pressed") === "true";
+        this.setAttribute("aria-pressed", on ? "false" : "true");
+      });
+      capGrid.appendChild(b);
+    }
+  }
+  buildGrid();
+
+  document.getElementById("cap-verify").addEventListener("click", function(){
+    capTries++;
+    capTriesEl.textContent = capTries;
+    clearErr("err-7");
+    if(capTries < 3){
+      fail("err-7", capTries === 1
+        ? "Verification failed. Please complete the replacement challenge."
+        : "Verification inconclusive. One further challenge is required.");
+      capPrompt.innerHTML = CHALLENGES[Math.min(capTries, CHALLENGES.length - 1)];
+      capNote.textContent = "Squares have been re-issued. Previous selections were not retained.";
+      buildGrid();
+      return;
+    }
+    capNote.textContent = "Verification accepted on the balance of probabilities.";
+    advanceTo(8);
+  });
+
+  // ---------- Section 8 ----------
+  var terms = document.getElementById("terms");
+  var termsOk = document.getElementById("terms-ok");
+  var termsLabel = document.getElementById("terms-label");
+  terms.addEventListener("scroll", function(){
+    if(terms.scrollTop + terms.clientHeight >= terms.scrollHeight - 6){
+      termsOk.disabled = false;
+      termsLabel.innerHTML = "I have read and understood the terms.";
+    }
+  });
+
+  var sig1 = document.getElementById("sig-1");
+  var sig2 = document.getElementById("sig-2");
+  var sigStrikes = 0;
+
+  function check8(){
+    clearErr("err-8");
+    if(!termsOk.checked){
+      return fail("err-8", "You must confirm that you have read the terms. The confirmation unlocks at the end of the terms.");
+    }
+    if(!document.getElementById("attest-true").checked || !document.getElementById("attest-final").checked){
+      return fail("err-8", "All three attestations are required.");
+    }
+    if(!sig1.value.trim() || !sig2.value.trim()){
+      return fail("err-8", "Both signatures are required.");
+    }
+    if(sig1.value.trim() !== sig2.value.trim()){
+      sigStrikes++;
+      sig2.value = "";
+      sig2.focus();
+      return fail("err-8", "Signatures do not match. Discrepancies recorded: " + sigStrikes + ". Please sign again, identically.");
+    }
+    return true;
+  }
+
+  // ---------- Section 9: submission ----------
+  var LOG_LINES = [
+    "Opening channel to Validation Office…",
+    "Channel open. Validation Office is closed.",
+    "Queuing for next opening (Tuesday, 2:00 PM–2:06 PM)…",
+    "Provisional reference reserved.",
+    "Checking prior reference number… not checked.",
+    "Assigning classification: Other (Other).",
+    "Classification unassigned by receiving department.",
+    "Re-assigning classification: Other (Other).",
+    "Applying severity: mild inconvenience.",
+    "Statement recorded. Restatement recorded. Neither compared.",
+    "Generating reference number…",
+    "Reference number generated. Application closed."
+  ];
+
+  document.getElementById("submit-btn").addEventListener("click", function(){
+    var btn = this;
+    btn.disabled = true;
+    btn.textContent = "Submitting…";
+    var log = document.getElementById("log");
+    log.innerHTML = "";
+    var i = 0;
+    var t = setInterval(function(){
+      var p = document.createElement("p");
+      p.style.margin = "0 0 4px";
+      p.textContent = "> " + LOG_LINES[i];
+      log.appendChild(p);
+      log.scrollTop = log.scrollHeight;
+      i++;
+      if(i >= LOG_LINES.length){
+        clearInterval(t);
+        finish();
+      }
+    }, 420);
+  });
+
+  function pad(n, w){
+    var s = String(n);
+    while(s.length < w){ s = "0" + s; }
+    return s;
+  }
+
+  function finish(){
+    var mins = Math.max(1, Math.round((Date.now() - started) / 60000));
+    document.getElementById("out-ref").textContent =
+      "DV-1140-B/2026-" + pad(Math.floor(Math.random() * 9999), 4) + "-" + pad(Math.floor(Math.random() * 999999), 6) + "-Δ";
+    document.getElementById("out-name").textContent = sig1.value.trim() || "Unnamed applicant";
+    document.getElementById("out-queue").textContent = fmt(queue) + " (revised upward)";
+    document.getElementById("out-eta").textContent = "In due course";
+    document.getElementById("out-time").textContent = mins + (mins === 1 ? " minute" : " minutes");
+    document.getElementById("out-attempts").textContent = attempts;
+    show(10);
+  }
+
+  document.getElementById("restart-btn").addEventListener("click", function(){
+    attempts++;
+    try{ localStorage.setItem("dv1140b-attempts", String(attempts)); }catch(e){}
+    document.getElementById("notice").textContent =
+      "Form DV‑1140‑C is currently unavailable. Form DV‑1140‑B is being provided in its place.";
+    form.reset();
+    officeStrikes = 0; sigStrikes = 0; capTries = 0; skipUses = 0;
+    capTriesEl.textContent = "0";
+    capPrompt.innerHTML = CHALLENGES[0];
+    termsOk.disabled = true;
+    termsLabel.innerHTML = "I have read and understood the terms. <span style=\"color:var(--void)\">(Enabled once you reach the end.)</span>";
+    terms.scrollTop = 0;
+    subWrap.hidden = true;
+    shortCount.textContent = "0 / 40 characters used";
+    shortCount.className = "counter";
+    longCount.textContent = "500 characters required";
+    longCount.className = "counter bad";
+    holdSkip.disabled = false;
+    holdMsg.textContent = "Please remain on this page.";
+    buildGrid();
+    var sb = document.getElementById("submit-btn");
+    sb.disabled = false;
+    sb.textContent = "Submit application";
+    declaredTotal = 6;
+    etaIndex = 0;
+    started = Date.now();
+    show(1);
+  });
+
+  // ---------- navigation ----------
+  var CHECKS = { 1: check1, 2: check2, 4: check4, 5: check5, 6: check6, 8: check8 };
+
+  function advanceTo(n){
+    etaIndex++;
+    queue += 9 + Math.floor(Math.random() * 40);
+    show(n);
+    if(n === 3){ startHold(); }
+    if(n === 6){
+      document.getElementById("echo-short").textContent =
+        "“" + (shortStatement.value.trim() || "—") + "”";
+    }
+  }
+
+  form.addEventListener("click", function(ev){
+    var btn = ev.target.closest("[data-next]");
+    if(!btn){ return; }
+    var step = parseInt(btn.closest(".step").dataset.step, 10);
+    var check = CHECKS[step];
+    if(check && !check()){ return; }
+    clearErr("err-" + step);
+    advanceTo(step + 1);
+  });
+
+  // Enter should never submit; there is a process.
+  form.addEventListener("submit", function(ev){ ev.preventDefault(); });
+  form.addEventListener("keydown", function(ev){
+    if(ev.key === "Enter" && ev.target.tagName !== "TEXTAREA"){ ev.preventDefault(); }
+  });
+
+  paintRail();
+})();
+</script>
