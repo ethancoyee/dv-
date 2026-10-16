@@ -1,0 +1,4 @@
+year,make,model,trim,mileage_min,mileage_max,avg_price,source
+2019,Honda,Civic,,30000,50000,18200,KBB private-party lookup 2026-10
+2019,Honda,Civic,,50001,80000,15900,KBB private-party lookup 2026-10
+2020,Toyota,Camry,SE,20000,40000,23800,Edmunds TMV 2026-10
