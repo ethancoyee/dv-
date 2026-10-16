@@ -153,3 +153,39 @@ def assess(vehicles: list[Vehicle], comps: list[dict] | None = None, method: str
                  f"${fair:,} [{detail}]")
         if v.negotiation_note and v.flag != "Great":
             v.why += "; long time on lot means the ask is likely soft"
+
+
+# --------------------------------------------------------- bang-for-buck
+
+def _pct_rank(values: list[float], x: float, higher_is_better: bool) -> float:
+    """Share of the set this value beats (0..100); ties count half."""
+    if len(values) < 2:
+        return 50.0
+    better = sum(1 for y in values if (x > y if higher_is_better else x < y))
+    ties = sum(1 for y in values if y == x) - 1
+    return 100.0 * (better + 0.5 * ties) / (len(values) - 1)
+
+
+def value_scores(vehicles: list[Vehicle], w_price: float = 1.0, w_miles: float = 1.0,
+                 w_year: float = 1.0, current_year: int | None = None) -> None:
+    """Score each car 0-100 on cheap + low-mileage + newer, relative to the others.
+
+    Each factor is a percentile rank within the set, so a 50 means "middle of
+    this pack" and 90 means "better than ~90% of these cars" on the weighted mix.
+    Cars missing price, mileage or year get no score.
+    """
+    from datetime import date
+    yr = current_year or date.today().year
+    rated = [v for v in vehicles if None not in (v.price, v.mileage, v.year)]
+    prices = [float(v.price) for v in rated]
+    miles = [float(v.mileage) for v in rated]
+    years = [float(v.year) for v in rated]
+    total = (w_price + w_miles + w_year) or 1.0
+    for v in vehicles:
+        if v.mileage is not None and v.year is not None:
+            v.miles_per_year = int(round(v.mileage / max(yr - v.year + 0.5, 0.5)))
+    for v in rated:
+        score = (w_price * _pct_rank(prices, v.price, False)
+                 + w_miles * _pct_rank(miles, v.mileage, False)
+                 + w_year * _pct_rank(years, v.year, True)) / total
+        v.value_score = round(score, 1)

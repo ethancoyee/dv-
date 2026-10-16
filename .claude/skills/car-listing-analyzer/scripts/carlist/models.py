@@ -5,7 +5,7 @@ from dataclasses import asdict, dataclass, field
 # Column order for the CSV / table output.
 OUTPUT_FIELDS = [
     "price", "year", "make", "model", "trim", "mileage", "days_on_lot",
-    "fair_value", "gap_dollars", "gap_pct", "flag", "negotiation_note",
+    "value_score", "miles_per_year", "fair_value", "gap_dollars", "gap_pct", "flag", "negotiation_note",
     "why", "baseline_source", "vin", "url", "title",
 ]
 
@@ -35,6 +35,8 @@ class Vehicle:
     negotiation_note: str | None = None
     why: str | None = None
     baseline_source: str | None = None
+    value_score: float | None = None      # 0-100 bang-for-buck within this set
+    miles_per_year: int | None = None
     extra: dict = field(default_factory=dict)
 
     def key(self) -> str:

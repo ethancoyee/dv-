@@ -30,6 +30,12 @@ new-car pricing.
 | Comparable-price lookup CSV | `--comps file.csv` | no |
 | Saved HTML page(s) instead of fetching | `--html-file page.html` (repeatable) | no |
 
+Bang-for-buck: `--sort value` ranks cars by `value_score` (0-100), the weighted
+percentile of cheap price, low mileage and newer year within the filtered set.
+Tune with `--weights PRICE,MILES,YEAR` (default `1,1,1`; `2,1,1` favours price).
+Use it when the user asks for the best value, best bang for buck, or a
+price/mileage/year trade-off. `miles_per_year` is also reported.
+
 Other knobs: `--max-pages` (20), `--band` (±% counted as Fair, default 6),
 `--internal-method adjusted|ppm`, `--ignore-site-value`, `--delay`, `--timeout`, `--out`.
 

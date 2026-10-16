@@ -50,7 +50,7 @@ def apply_filters(vehicles: list[Vehicle], max_price, make, model) -> tuple[list
 
 
 def markdown_table(vehicles: list[Vehicle]) -> str:
-    cols = ["#", "Price", "Year", "Make", "Model", "Trim", "Miles", "Days", "Fair value", "Gap $", "Gap %", "Flag", "Note"]
+    cols = ["#", "Price", "Year", "Make", "Model", "Trim", "Miles", "Mi/yr", "Days", "Value", "Fair value", "Gap $", "Gap %", "Flag", "Note"]
     lines = ["| " + " | ".join(cols) + " |", "|" + "---|" * len(cols)]
     money = lambda n: f"${n:,}" if n is not None else ""  # noqa: E731
     for i, v in enumerate(vehicles, 1):
@@ -58,7 +58,10 @@ def markdown_table(vehicles: list[Vehicle]) -> str:
         pct = "" if v.gap_pct is None else f"{v.gap_pct:+.1f}%"
         note = "60+ days: negotiate" if v.negotiation_note else ""
         row = [str(i), money(v.price), str(v.year or ""), v.make or "", v.model or "", (v.trim or "")[:28],
-               f"{v.mileage:,}" if v.mileage is not None else "", "" if v.days_on_lot is None else str(v.days_on_lot),
+               f"{v.mileage:,}" if v.mileage is not None else "",
+               f"{v.miles_per_year:,}" if v.miles_per_year is not None else "",
+               "" if v.days_on_lot is None else str(v.days_on_lot),
+               "" if v.value_score is None else f"{v.value_score:.0f}",
                money(v.fair_value), gap, pct, v.flag or "", note]
         lines.append("| " + " | ".join(c.replace("|", "/") for c in row) + " |")
     return "\n".join(lines)
@@ -88,7 +91,12 @@ def run(args) -> tuple[dict, list[Vehicle]]:
     valuation.assess(fr.vehicles, comps=comps, method=args.internal_method, band=args.band / 100,
                      use_site_value=not args.ignore_site_value)
     kept, dropped = apply_filters(fr.vehicles, args.max_price, args.make, args.model)
-    kept.sort(key=lambda v: (v.price is None, v.price or 0, v.mileage or 0))
+    # Bang-for-buck is relative, so score only the cars the user is choosing between.
+    valuation.value_scores(kept, *args.weights)
+    if args.sort == "value":
+        kept.sort(key=lambda v: (v.value_score is None, -(v.value_score or 0), v.price or 0))
+    else:
+        kept.sort(key=lambda v: (v.price is None, v.price or 0, v.mileage or 0))
 
     out_csv = args.out or default_out(args.url)
     out_json = os.path.splitext(out_csv)[0] + ".json"
@@ -168,6 +176,10 @@ def main(argv=None) -> int:
     ap.add_argument("--comps", help="CSV of comparable averages (see references/comps_template.csv)")
     ap.add_argument("--internal-method", choices=["adjusted", "ppm"], default="adjusted",
                     help="adjusted = mileage-adjusted group median (default); ppm = group median price-per-mile (literal, but over-values high-mileage cars - see references/methodology.md)")
+    ap.add_argument("--sort", choices=["price", "value"], default="price",
+                    help="price = low to high (default); value = best bang-for-buck score first")
+    ap.add_argument("--weights", type=lambda s: [float(x) for x in s.split(",")], default=[1.0, 1.0, 1.0],
+                    metavar="PRICE,MILES,YEAR", help="bang-for-buck weights (default 1,1,1)")
     ap.add_argument("--band", type=float, default=6.0, help="+/- percent around fair value counted as 'Fair' (default 6)")
     ap.add_argument("--ignore-site-value", action="store_true", help="don't use the site's own market-value estimate")
     ap.add_argument("--max-pages", type=int, default=20)
@@ -178,6 +190,8 @@ def main(argv=None) -> int:
     ap.add_argument("--out", help="CSV output path (JSON is written alongside)")
     ap.add_argument("--json", action="store_true", help="print the JSON result to stdout instead of the report")
     args = ap.parse_args(argv)
+    if len(args.weights) != 3 or min(args.weights) < 0:
+        ap.error("--weights needs three non-negative numbers, e.g. 2,1,1")
 
     if not args.url and not args.html_file:
         result, kept = {"status": "error", "message": "Provide a URL or --html-file.", "vehicles": []}, []

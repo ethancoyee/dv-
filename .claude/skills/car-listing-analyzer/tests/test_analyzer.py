@@ -92,6 +92,18 @@ def test_comps_beat_site_value_beat_internal(tmp_path):
     assert b.baseline_source == "site" and b.flag == "High"
 
 
+def test_value_score_prefers_cheap_low_mile_newer():
+    best = _car(2016, 9500, 70000)
+    worse = [_car(2012, 9900, 150000), _car(2014, 10400, 110000), _car(2015, 10000, 95000)]
+    valuation.value_scores([best, *worse], current_year=2026)
+    assert best.value_score == 100.0
+    assert all(w.value_score < best.value_score for w in worse)
+    assert best.miles_per_year == 6667  # 70k over ~10.5 years
+    missing = _car(2015, None, 90000)
+    valuation.value_scores([missing, best])
+    assert missing.value_score is None
+
+
 def test_block_detection():
     from carlist.fetch import detect_block
     assert detect_block(200, "Pardon Our Interruption", "", 0)[0]
