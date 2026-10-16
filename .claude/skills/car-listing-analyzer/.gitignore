@@ -1,0 +1,4 @@
+__pycache__/
+.pytest_cache/
+car_listings_*.csv
+car_listings_*.json

@@ -1,0 +1,12 @@
+<!doctype html><html><head><title>Used Mazda CX-5 for Sale</title></head><body>
+<div id='results'></div><button id='nextBtn' aria-label='Next page'>Next</button>
+<script>
+let page=1;
+async function load(){
+  const r=await fetch('cg_api_page'+page+'.json',{headers:{'Accept':'application/json'}}); const d=await r.json();
+  document.getElementById('results').innerHTML=d.listings.map(l=>`<div class='tile'><h4>${l.carYear} ${l.makeName} ${l.modelName} ${l.trimName}</h4><p>$${l.price.toLocaleString()}</p><p>${l.mileage.toLocaleString()} mi</p></div>`).join('');
+  const b=document.getElementById('nextBtn'); if(page>=2){b.disabled=true;}
+}
+document.getElementById('nextBtn').onclick=()=>{page++;load();};
+load();
+</script></body></html>
